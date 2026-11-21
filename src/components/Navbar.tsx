@@ -39,59 +39,42 @@ export default function Navbar() {
   if (isCreditCardsPage) {
     return (
       <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
-        <div className="max-w-4xl mx-auto px-3.5 sm:px-6 h-12 sm:h-14 flex items-center justify-between">
-          {/* Left: Single Clean Brand Logo & Tagline */}
-          <Link href="/" className="inline-flex items-center gap-2 group">
-            <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
-              <svg viewBox="0 0 40 40" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="cmGradHeader1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#06B6D4" />
-                    <stop offset="60%" stopColor="#2563EB" />
-                    <stop offset="100%" stopColor="#1E40AF" />
-                  </linearGradient>
-                  <linearGradient id="cmGradHeader2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#38BDF8" />
-                    <stop offset="100%" stopColor="#1D4ED8" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M 28 8 A 14 14 0 1 0 28 32 C 32 30 33 26 31 23 C 29 20 25 21 23 23 C 20 26 15 25 13 21 C 11 17 13 12 18 10 C 22 8 26 9 28 8 Z"
-                  fill="url(#cmGradHeader1)"
-                />
-                <path
-                  d="M 26 14 A 8 8 0 0 0 16 20 C 16 24 19 26 23 25"
-                  stroke="url(#cmGradHeader2)"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                />
-                <rect x="33.5" y="11" width="3.5" height="18" rx="1.75" fill="#1D4ED8" />
-              </svg>
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-[15px] sm:text-lg font-black tracking-tight text-[#0B0F17]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+          {/* Left: Brand Logo and Tagline matching CardXpert style */}
+          <Link href="/" className="inline-flex items-center gap-3 group">
+            <BrandLogo size="sm" />
+            <div className="flex flex-col">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B0F17]">
                 Credit-Mitra<span className="text-[#1A56DB]">.</span>
               </span>
-              <span className="text-[9px] sm:text-[10px] font-semibold text-slate-500 tracking-tight mt-0.5">
+              <span className="text-[11px] font-semibold text-slate-500 tracking-wide">
                 Smart Card. Better Life.
               </span>
             </div>
           </Link>
 
           {/* Right: 100% Secure Badge & Navigation Links */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] sm:text-xs font-bold shadow-xs">
-              <ShieldCheck size={14} weight="fill" className="text-emerald-600" />
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold shadow-xs">
+              <ShieldCheck size={16} weight="fill" className="text-emerald-600" />
               <span>100% Secure</span>
             </div>
 
-            <Link
-              href="/"
-              className="p-1.5 sm:p-2 rounded-full hover:bg-slate-200 text-slate-700 transition-colors"
-              title="Home"
-            >
-              <List size={20} weight="bold" />
-            </Link>
+            <nav aria-label="Compact Navigation" className="flex items-center gap-3 sm:gap-4">
+              <Link
+                href="/compare"
+                className="text-xs sm:text-sm font-bold text-slate-700 hover:text-[#1A56DB] transition-colors hidden xs:inline-block"
+              >
+                Compare
+              </Link>
+              <Link
+                href="/"
+                className="p-2 rounded-full hover:bg-slate-200 text-slate-700 transition-colors"
+                title="Home"
+              >
+                <List size={22} weight="bold" />
+              </Link>
+            </nav>
           </div>
         </div>
       </header>

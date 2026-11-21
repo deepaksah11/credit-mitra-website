@@ -71,18 +71,3 @@ export function AxisBankLogo({ className = 'h-5' }: { className?: string }) {
     </div>
   );
 }
-
-export function IdfcBankLogo({ className = 'h-5' }: { className?: string }) {
-  return (
-    <div className={`flex items-center gap-1.5 ${className}`}>
-      {/* IDFC First Bank Maroon Badge */}
-      <div className="w-5 h-5 rounded bg-[#9E1B32] flex items-center justify-center flex-shrink-0 text-white font-black text-[10px]">
-        1
-      </div>
-      <div className="flex items-center gap-0.5 font-sans">
-        <span className="font-extrabold text-[12px] text-[#9E1B32] tracking-tight">IDFC FIRST</span>
-        <span className="font-semibold text-[11px] text-[#0B0F17]">Bank</span>
-      </div>
-    </div>
-  );
-}

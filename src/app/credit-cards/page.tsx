@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { getCards } from '@/lib/api';
 import CreditCardsCarousel from '@/components/CreditCardsCarousel';
+import CreditCardsExplorer from '@/components/CreditCardsExplorer';
 
 export const metadata: Metadata = {
   title: 'Credit Cards — Find the Right Credit Card for You | Credit-Mitra',
@@ -40,24 +41,37 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
   const initialAutoplay = searchParams?.autoplay !== 'false';
 
   return (
-    <main className="relative min-h-[calc(100dvh-3.5rem)] bg-[#FAF7F2] overflow-x-hidden flex flex-col justify-between py-1 sm:py-2">
+    <div className="relative min-h-screen bg-[#FAF7F2] pb-20 overflow-x-hidden">
       
-      {/* Soft fluid ambient background glows */}
+      {/* ======================================================== */}
+      {/* SOFT FLUID AMBIENT CURVED WAVES (Fintech Brand Aesthetic) */}
+      {/* ======================================================== */}
       <div
-        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[350px] pointer-events-none -z-10 opacity-70"
+        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] pointer-events-none -z-10 opacity-70"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 30%, rgba(224, 231, 255, 0.6) 0%, rgba(254, 215, 226, 0.3) 45%, rgba(254, 240, 138, 0.15) 70%, transparent 100%)',
+            'radial-gradient(ellipse at 50% 30%, rgba(224, 231, 255, 0.6) 0%, rgba(254, 215, 226, 0.35) 45%, rgba(254, 240, 138, 0.2) 70%, transparent 100%)',
         }}
       />
 
-      <div className="w-full max-w-4xl mx-auto px-3 sm:px-6 flex flex-col justify-between flex-1 space-y-1.5 sm:space-y-3">
+      <div
+        className="absolute top-1/2 -right-40 w-[600px] h-[600px] pointer-events-none -z-10 opacity-50"
+        style={{
+          background:
+            'radial-gradient(circle at 60% 50%, rgba(254, 215, 226, 0.45) 0%, rgba(253, 230, 138, 0.2) 50%, transparent 70%)',
+        }}
+      />
+
+      {/* ======================================================== */}
+      {/* MAIN CONTAINER */}
+      {/* ======================================================== */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-7 sm:space-y-9">
         
         {/* ======================================================== */}
-        {/* HEADING SECTION (Compact, Single-Screen Mobile Typography) */}
+        {/* HEADING SECTION (Exact Reference Typography & Hierarchy) */}
         {/* ======================================================== */}
-        <section aria-label="Hero Title" className="text-center max-w-md mx-auto space-y-0.5 pt-0.5">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#0B0F17] tracking-tight leading-tight">
+        <section aria-label="Hero Title" className="text-center max-w-2xl mx-auto space-y-2.5 pt-2">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B0F17] tracking-tight leading-tight">
             Find the Right{' '}
             <span className="bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">
               Credit Card
@@ -65,20 +79,25 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
             for You
           </h1>
 
-          <p className="text-[11px] sm:text-xs text-slate-600 font-medium leading-normal max-w-xs mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-slate-600 font-medium leading-relaxed max-w-lg mx-auto">
             Explore credit cards, compare fees and benefits, and apply directly.
           </p>
         </section>
 
         {/* ======================================================== */}
-        {/* ANIMATED CAROUSEL + CATEGORY PILLS + COMPARE BANNER + FOOTER */}
+        {/* 3-CARD PEEKING ANIMATED CAROUSEL (Dominant Center Stage) */}
         {/* ======================================================== */}
         <CreditCardsCarousel
           cards={cards}
           autoplayInterval={autoplayInterval}
           initialAutoplay={initialAutoplay}
         />
+
+        {/* ======================================================== */}
+        {/* CATEGORY PILLS BAR, COMPARE BANNER & TRUST FOOTER */}
+        {/* ======================================================== */}
+        <CreditCardsExplorer cards={cards} />
       </div>
-    </main>
+    </div>
   );
 }
