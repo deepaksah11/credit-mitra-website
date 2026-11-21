@@ -38,11 +38,11 @@ export default function Navbar() {
   // ========================================================
   if (isCreditCardsPage) {
     return (
-      <header className="hidden sm:block w-full relative z-50 transition-all bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+      <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-20 flex items-center justify-between">
           {/* Left: Clean Brand Logo and Tagline (No duplication) */}
-          <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <div className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
+          <Link href="/" className="inline-flex items-center gap-2 sm:gap-2.5 group">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
               <svg viewBox="0 0 40 40" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="cmGradHeader1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -69,23 +69,23 @@ export default function Navbar() {
               </svg>
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B0F17]">
+              <span className="text-lg sm:text-2xl font-black tracking-tight text-[#0B0F17]">
                 Credit-Mitra<span className="text-[#1A56DB]">.</span>
               </span>
-              <span className="text-[11px] font-semibold text-slate-500 tracking-wide mt-0.5">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-wide mt-0.5">
                 Smart Card. Better Life.
               </span>
             </div>
           </Link>
 
           {/* Right: 100% Secure Badge & Navigation Links */}
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold shadow-xs">
-              <ShieldCheck size={16} weight="fill" className="text-emerald-600" />
+          <div className="flex items-center gap-2 sm:gap-5">
+            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] sm:text-xs font-bold shadow-xs">
+              <ShieldCheck size={15} weight="fill" className="text-emerald-600" />
               <span>100% Secure</span>
             </div>
 
-            <nav aria-label="Compact Navigation" className="flex items-center gap-3 sm:gap-4">
+            <nav aria-label="Compact Navigation" className="flex items-center gap-2 sm:gap-4">
               <Link
                 href="/compare"
                 className="text-xs sm:text-sm font-bold text-slate-700 hover:text-[#1A56DB] transition-colors hidden xs:inline-block"
@@ -94,10 +94,10 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/"
-                className="p-2 rounded-full hover:bg-slate-200 text-slate-700 transition-colors"
+                className="p-1.5 sm:p-2 rounded-full hover:bg-slate-200 text-slate-700 transition-colors"
                 title="Home"
               >
-                <List size={22} weight="bold" />
+                <List size={20} weight="bold" />
               </Link>
             </nav>
           </div>

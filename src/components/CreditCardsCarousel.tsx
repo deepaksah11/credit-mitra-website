@@ -365,14 +365,14 @@ export default function CreditCardsCarousel({
             </div>
           </div>
 
-          {/* Bottom Actions Row: VIEW DETAILS & APPLY NOW (Side-by-Side) */}
-          <div className="mt-6 sm:mt-8 pt-5 border-t border-slate-100 flex flex-col xs:flex-row items-center gap-3">
+          {/* Bottom Actions Row: VIEW DETAILS & APPLY NOW in a single row */}
+          <div className="mt-4 sm:mt-8 pt-4 sm:pt-5 border-t border-slate-100 grid grid-cols-2 gap-2.5 sm:gap-4">
             {/* View Details Button */}
             <Link
               href={`/cards/${currentCard.slug}`}
-              className="w-full xs:flex-1 py-3.5 px-6 rounded-2xl bg-[#FAF7F2] hover:bg-[#EFEAE1] text-[#0B0F17] font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xs"
+              className="w-full py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-xl sm:rounded-2xl bg-[#FAF7F2] hover:bg-[#EFEAE1] text-[#0B0F17] font-bold text-xs sm:text-base flex items-center justify-center gap-1.5 sm:gap-2 transition-all active:scale-95 shadow-xs whitespace-nowrap"
             >
-              <Eye size={18} weight="bold" className="text-slate-600" />
+              <Eye size={16} weight="bold" className="text-slate-600 flex-shrink-0" />
               <span>View Details</span>
             </Link>
 
@@ -381,9 +381,9 @@ export default function CreditCardsCarousel({
               href={`${API_BASE_URL}/go/${currentCard.slug}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full xs:flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] hover:from-[#1E40AF] hover:to-[#6D28D9] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25 active:scale-95 transition-all group/apply"
+              className="w-full py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] hover:from-[#1E40AF] hover:to-[#6D28D9] text-white font-extrabold text-xs sm:text-base flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-indigo-500/25 active:scale-95 transition-all group/apply whitespace-nowrap"
             >
-              <Lightning size={18} weight="fill" className="text-amber-300 group-hover/apply:scale-110 transition-transform" />
+              <Lightning size={16} weight="fill" className="text-amber-300 group-hover/apply:scale-110 transition-transform flex-shrink-0" />
               <span>Apply Now</span>
             </a>
           </div>
