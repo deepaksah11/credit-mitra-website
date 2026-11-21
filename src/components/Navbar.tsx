@@ -2,10 +2,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { CaretDown, List, X, CreditCard, Bank, Money, Gift, ArrowRight } from '@phosphor-icons/react';
+import { usePathname } from 'next/navigation';
+import { CaretDown, List, X, CreditCard, Bank, Money, Gift, ArrowRight, Sparkle } from '@phosphor-icons/react';
 import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isCreditCardsPage = pathname === '/credit-cards';
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -28,6 +32,47 @@ export default function Navbar() {
     { label: 'Travel & Lounge Cards', href: '/cards?category=Travel' },
     { label: 'Shopping & Rewards', href: '/cards?category=Shopping' },
   ];
+
+  // ========================================================
+  // COMPACT HEADER FOR /credit-cards ROUTE (Requirement 3.A)
+  // ========================================================
+  if (isCreditCardsPage) {
+    return (
+      <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+          {/* Left: Brand Logo and "Credit Cards" Title Badge */}
+          <div className="flex items-center gap-2.5 sm:gap-3.5">
+            <Link href="/" className="inline-flex items-center gap-1 group">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B0F17]">
+                Credit-Mitra<span className="text-[#1A56DB]">.</span>
+              </span>
+            </Link>
+            <div className="h-4 w-px bg-slate-300" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1A56DB]/10 text-[#1A56DB] text-xs font-bold tracking-wide">
+              <Sparkle size={12} weight="fill" className="text-[#1A56DB]" />
+              <span>Credit Cards</span>
+            </span>
+          </div>
+
+          {/* Right: Minimal Navigation */}
+          <nav aria-label="Compact Navigation" className="flex items-center gap-4 sm:gap-6">
+            <Link
+              href="/compare"
+              className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B0F17] transition-colors"
+            >
+              Compare
+            </Link>
+            <Link
+              href="/"
+              className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B0F17] transition-colors"
+            >
+              Home
+            </Link>
+          </nav>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
