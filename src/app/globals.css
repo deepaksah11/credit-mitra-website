@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-geist: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-geist);
+    background-color: #FAFAFA;
+    color: #181818;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Named text styles from landing-page-design skill */
+@layer utilities {
+  .heading-1 {
+    font-size: 3.75rem; /* text-6xl (60px) */
+    line-height: 1;
+    font-weight: 600;
+  }
+
+  .heading-2 {
+    font-size: 3rem; /* text-5xl (48px) */
+    line-height: 1;
+    font-weight: 600;
+  }
+
+  .heading-3 {
+    font-size: 2.25rem; /* text-4xl (36px) */
+    line-height: 2.5rem;
+    font-weight: 600;
+  }
+
+  .heading-4 {
+    font-size: 1.875rem; /* text-3xl (30px) */
+    line-height: 2.25rem;
+    font-weight: 600;
+  }
+
+  .heading-5 {
+    font-size: 1.5rem; /* text-2xl (24px) */
+    line-height: 2rem;
+    font-weight: 600;
+  }
+
+  .heading-6 {
+    font-size: 1.25rem; /* text-xl (20px) */
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .title-1 {
+    font-size: 1.25rem; /* text-xl */
+    line-height: 1.75rem;
+    font-weight: 500;
+  }
+
+  .title-2 {
+    font-size: 1.125rem; /* text-lg */
+    line-height: 1.75rem;
+    font-weight: 500;
+  }
+
+  .title-3 {
+    font-size: 1rem; /* text-base */
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+
+  .title-4 {
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .title-5 {
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem;
+    font-weight: 500;
+  }
+
+  .body-1 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .body-2 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+
+  .body-3 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+
+  .body-4 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+
+  .body-5 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .body-6 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  /* Button styles: strict 8px py, 12px px */
+  .button-md {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    padding-top: 0.5rem; /* 8px */
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem; /* 12px */
+    padding-right: 0.75rem;
+  }
+
+  .button-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .caption-1 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .caption-2 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  .caption-3 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+  }
+
+  .caption-4 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+  }
+
+  .caption-5 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+}
+
+@keyframes progressFill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-progress-fill {
+  animation-name: progressFill;
+}
+
