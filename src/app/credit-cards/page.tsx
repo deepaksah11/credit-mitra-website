@@ -65,12 +65,12 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
       {/* ======================================================== */}
       {/* MAIN CONTAINER */}
       {/* ======================================================== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-7 sm:space-y-9">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 sm:pt-6 space-y-4 sm:space-y-9">
         
         {/* ======================================================== */}
-        {/* HEADING SECTION (Exact Reference Typography & Hierarchy) */}
+        {/* HEADING SECTION (Hidden on mobile as requested, visible on tablet/desktop) */}
         {/* ======================================================== */}
-        <section aria-label="Hero Title" className="text-center max-w-2xl mx-auto space-y-2.5 pt-2">
+        <section aria-label="Hero Title" className="hidden sm:block text-center max-w-2xl mx-auto space-y-2.5 pt-2">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B0F17] tracking-tight leading-tight">
             Find the Right{' '}
             <span className="bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">

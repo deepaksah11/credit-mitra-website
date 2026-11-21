@@ -38,16 +38,41 @@ export default function Navbar() {
   // ========================================================
   if (isCreditCardsPage) {
     return (
-      <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
+      <header className="hidden sm:block w-full relative z-50 transition-all bg-[#FAF7F2]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
-          {/* Left: Brand Logo and Tagline matching CardXpert style */}
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <BrandLogo size="sm" />
-            <div className="flex flex-col">
+          {/* Left: Clean Brand Logo and Tagline (No duplication) */}
+          <Link href="/" className="inline-flex items-center gap-2.5 group">
+            <div className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
+              <svg viewBox="0 0 40 40" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="cmGradHeader1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#06B6D4" />
+                    <stop offset="60%" stopColor="#2563EB" />
+                    <stop offset="100%" stopColor="#1E40AF" />
+                  </linearGradient>
+                  <linearGradient id="cmGradHeader2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#38BDF8" />
+                    <stop offset="100%" stopColor="#1D4ED8" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M 28 8 A 14 14 0 1 0 28 32 C 32 30 33 26 31 23 C 29 20 25 21 23 23 C 20 26 15 25 13 21 C 11 17 13 12 18 10 C 22 8 26 9 28 8 Z"
+                  fill="url(#cmGradHeader1)"
+                />
+                <path
+                  d="M 26 14 A 8 8 0 0 0 16 20 C 16 24 19 26 23 25"
+                  stroke="url(#cmGradHeader2)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+                <rect x="33.5" y="11" width="3.5" height="18" rx="1.75" fill="#1D4ED8" />
+              </svg>
+            </div>
+            <div className="flex flex-col leading-none">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B0F17]">
                 Credit-Mitra<span className="text-[#1A56DB]">.</span>
               </span>
-              <span className="text-[11px] font-semibold text-slate-500 tracking-wide">
+              <span className="text-[11px] font-semibold text-slate-500 tracking-wide mt-0.5">
                 Smart Card. Better Life.
               </span>
             </div>
