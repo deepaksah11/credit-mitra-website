@@ -2,7 +2,6 @@ import React from 'react';
 import { getCards } from '@/lib/api';
 import HeroSection from '@/components/HeroSection';
 import TrustBar from '@/components/TrustBar';
-import PopularProducts from '@/components/PopularProducts';
 import CategoryPills from '@/components/CategoryPills';
 import TaglineReveal from '@/components/TaglineReveal';
 import CardItem from '@/components/CardItem';
@@ -58,10 +57,7 @@ export default async function HomePage() {
             </div>
 
             <div className="space-y-10 md:space-y-16">
-                {/* 3. Popular Products / Find the Right Card for You */}
-                <PopularProducts />
-
-            {/* 4. Category Navigation Strip */}
+                {/* 3. Category Navigation Strip */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                     <div>
