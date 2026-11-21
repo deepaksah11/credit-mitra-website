@@ -7,18 +7,19 @@ import { Card } from '@/types/card';
 import { formatCurrency } from '@/lib/utils';
 import { API_BASE_URL } from '@/lib/api';
 import {
-  Sparkle,
-  ArrowSquareOut,
-  Eye,
+  CreditCard as CardIcon,
+  Crown,
+  Target,
+  AirplaneTilt,
+  Gift,
+  ShoppingBag,
   Scales,
   ShieldCheck,
   Check,
   ArrowRight,
-  AirplaneTilt,
-  Percent,
-  Gift,
-  Tag,
-  CreditCard as CardIcon,
+  ArrowSquareOut,
+  Eye,
+  MagnifyingGlass,
 } from '@phosphor-icons/react';
 
 interface CreditCardsExplorerProps {
@@ -29,24 +30,23 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const categories = [
-    { label: 'All Cards', value: 'All' },
-    { label: 'Cashback', value: 'Cashback' },
-    { label: 'Travel & Lounge', value: 'Travel' },
-    { label: 'Lifetime Free', value: 'Lifetime Free' },
-    { label: 'Rewards', value: 'Rewards' },
-    { label: 'Shopping', value: 'Shopping' },
+  // Category pills with icons matching reference image
+  const categoryTabs = [
+    { label: 'All Cards', value: 'All', icon: <CardIcon size={16} weight="fill" /> },
+    { label: 'Lifetime Free', value: 'Lifetime Free', icon: <Crown size={16} weight="fill" className="text-amber-500" /> },
+    { label: 'Cashback', value: 'Cashback', icon: <Target size={16} weight="bold" className="text-blue-500" /> },
+    { label: 'Travel', value: 'Travel', icon: <AirplaneTilt size={16} weight="fill" className="text-indigo-500" /> },
+    { label: 'Rewards', value: 'Rewards', icon: <Gift size={16} weight="fill" className="text-rose-500" /> },
+    { label: 'Shopping', value: 'Shopping', icon: <ShoppingBag size={16} weight="fill" className="text-purple-500" /> },
   ];
 
-  // Filter cards based on selectedCategory and optional search
+  // Filter cards based on selectedCategory and search
   const filteredCards = useMemo(() => {
     return cards.filter((card) => {
-      // Category match
       const categoryMatch =
         selectedCategory === 'All' ||
         card.category.toLowerCase() === selectedCategory.toLowerCase();
 
-      // Search match
       const query = searchQuery.trim().toLowerCase();
       const searchMatch =
         !query ||
@@ -60,65 +60,61 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
   }, [cards, selectedCategory, searchQuery]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-12">
+    <div className="w-full max-w-5xl mx-auto space-y-8 sm:space-y-10 pt-2">
+      
       {/* ======================================================== */}
-      {/* 1. CATEGORY FILTERS & SEARCH */}
+      {/* 1. CATEGORY PILLS BAR (Exact Reference Image Style) */}
       {/* ======================================================== */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B0F17] tracking-tight">
-              Explore All Cards by Category
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-500 font-medium">
-              Showing {filteredCards.length} verified credit {filteredCards.length === 1 ? 'card' : 'cards'}
-            </p>
-          </div>
-
-          {/* Quick Search Input */}
-          <div className="w-full sm:w-64">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search bank or card name..."
-              className="w-full px-4 py-2.5 rounded-full bg-white text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 shadow-md shadow-black/[0.02] focus:outline-none focus:ring-2 focus:ring-[#0B0F17] transition-all font-medium"
-            />
-          </div>
-        </div>
-
-        {/* Category Pill Buttons (Zero borders, soft pill active states) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.value;
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center">
+          {categoryTabs.map((tab) => {
+            const isActive = selectedCategory === tab.value;
             return (
               <button
-                key={cat.value}
+                key={tab.value}
                 type="button"
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 active:scale-95 ${
+                onClick={() => setSelectedCategory(tab.value)}
+                className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300 active:scale-95 ${
                   isActive
-                    ? 'bg-[#0B0F17] text-white shadow-md shadow-black/10'
-                    : 'bg-white text-slate-700 hover:bg-slate-100 shadow-sm'
+                    ? 'bg-[#1A56DB] text-white shadow-md shadow-blue-600/20'
+                    : 'bg-white text-slate-700 hover:bg-slate-100 shadow-sm shadow-black/[0.03]'
                 }`}
               >
-                {cat.label}
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
+
+        {/* Quick Search and Filter Results count */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-2">
+          <p className="text-xs sm:text-sm font-bold text-slate-500">
+            Showing <span className="text-[#0B0F17] font-black">{filteredCards.length}</span> cards in{' '}
+            <span className="text-[#1A56DB]">{selectedCategory === 'All' ? 'All Categories' : selectedCategory}</span>
+          </p>
+
+          <div className="relative w-full sm:w-64">
+            <MagnifyingGlass size={16} weight="bold" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by card or bank..."
+              className="w-full pl-9 pr-4 py-2 rounded-full bg-white text-xs text-slate-800 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1A56DB] transition-all font-medium"
+            />
+          </div>
+        </div>
       </div>
 
       {/* ======================================================== */}
-      {/* 2. FILTERED CARDS GRID (Zero Borders, Rounded-3xl, Soft Shadows) */}
+      {/* 2. CARD DIRECTORY GRID (Zero Borders, Soft Shadows) */}
       {/* ======================================================== */}
       {filteredCards.length === 0 ? (
         <div className="p-10 text-center rounded-3xl bg-white shadow-xl shadow-black/[0.02]">
           <CardIcon size={40} className="mx-auto text-slate-300 mb-2" />
-          <h4 className="text-base font-bold text-[#0B0F17]">No cards match this filter</h4>
-          <p className="text-xs text-slate-500 mt-1">
-            Try choosing a different category or clearing your search term.
-          </p>
+          <h4 className="text-base font-bold text-[#0B0F17]">No cards found in this category</h4>
+          <p className="text-xs text-slate-500 mt-1">Try selecting another category above or resetting filters.</p>
           <button
             type="button"
             onClick={() => {
@@ -141,8 +137,8 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
                 key={card._id}
                 className="group rounded-3xl bg-white p-5 shadow-xl shadow-black/[0.03] hover:shadow-2xl hover:shadow-black/[0.07] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="space-y-4">
-                  {/* Top Row: Bank Badge & Category */}
+                <div className="space-y-3.5">
+                  {/* Top: Bank & Category */}
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[11px] font-bold text-slate-700 bg-[#F5F2EB] px-3 py-1 rounded-full">
                       {card.bankName}
@@ -152,17 +148,11 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
                     </span>
                   </div>
 
-                  {/* Card Visual Mockup & Title */}
+                  {/* Card Visual & Title */}
                   <div className="flex items-center gap-3.5">
                     <div className="relative w-20 h-13 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-slate-900 group-hover:scale-105 transition-transform duration-300">
                       {card.imageUrl ? (
-                        <Image
-                          src={card.imageUrl}
-                          alt={card.title}
-                          fill
-                          className="object-cover"
-                          sizes="80px"
-                        />
+                        <Image src={card.imageUrl} alt={card.title} fill className="object-cover" sizes="80px" />
                       ) : (
                         <div className="w-full h-full bg-slate-900" />
                       )}
@@ -196,7 +186,7 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
                 </div>
 
                 {/* Actions */}
-                <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-2">
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center gap-2">
                   <a
                     href={applyUrl}
                     target="_blank"
@@ -222,57 +212,57 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
       )}
 
       {/* ======================================================== */}
-      {/* 3. COMPARISON ENTRY POINT CALLOUT */}
+      {/* 3. COMPARE CARDS BANNER (Exact Reference Image Design) */}
       {/* ======================================================== */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-white to-[#F5F2EB] shadow-xl shadow-black/[0.03] flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="space-y-2 text-center sm:text-left">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EFF6FF] text-[#1A56DB] text-xs font-bold">
-            <Scales size={14} weight="fill" />
-            <span>Interactive Comparison Tool</span>
+      <div className="p-5 sm:p-7 rounded-[28px] bg-white shadow-xl shadow-indigo-950/[0.04] flex flex-col sm:flex-row items-center justify-between gap-5 transition-transform hover:-translate-y-0.5">
+        <div className="flex items-center gap-4 text-center sm:text-left">
+          {/* Scales Icon Container */}
+          <div className="w-14 h-14 rounded-2xl bg-indigo-50/80 flex items-center justify-center flex-shrink-0 text-[#1A56DB]">
+            <Scales size={28} weight="duotone" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B0F17] tracking-tight">
-            Can&apos;t Decide Between Two Cards?
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-500 max-w-xl font-normal leading-relaxed">
-            Evaluate annual charges, spend waiver criteria, airport lounge privileges, and real reward rates side by side before submitting your application.
-          </p>
+          <div>
+            <h3 className="text-lg sm:text-xl font-extrabold text-[#0B0F17] tracking-tight">
+              Compare Cards
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
+              Find the best match for your needs
+            </p>
+          </div>
         </div>
 
         <Link
           href="/compare"
-          className="whitespace-nowrap py-3.5 px-7 rounded-full bg-[#0B0F17] hover:bg-[#1A56DB] text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-black/10 active:scale-95 transition-all"
+          className="whitespace-nowrap py-3 px-6 rounded-full bg-[#FAF7F2] hover:bg-[#EFEAE1] text-[#0B0F17] font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-xs active:scale-95"
         >
-          <span>Compare Cards Now</span>
-          <ArrowRight size={16} weight="bold" />
+          <span>Compare Now</span>
+          <ArrowRight size={15} weight="bold" />
         </Link>
       </div>
 
       {/* ======================================================== */}
-      {/* 4. AFFILIATE DISCLOSURE & TRUST FOOTER */}
+      {/* 4. TRUST & LEGAL FOOTER (Exact Reference Image Design) */}
       {/* ======================================================== */}
-      <div className="p-6 rounded-3xl bg-white/70 shadow-sm space-y-3 text-center sm:text-left text-xs text-slate-500 leading-relaxed">
-        <div className="flex items-center justify-center sm:justify-start gap-2 text-slate-700 font-bold text-xs uppercase tracking-wider">
+      <div className="text-center space-y-3 pt-2 text-xs text-slate-500">
+        {/* Trusted by Millions Badge */}
+        <div className="inline-flex items-center justify-center gap-2 font-bold text-slate-700">
           <ShieldCheck size={16} weight="fill" className="text-emerald-600" />
-          <span>Affiliate &amp; Security Disclosure</span>
+          <span>Trusted by Millions</span>
+          <span className="text-slate-300">|</span>
+          <span>100% Secure &amp; Transparent</span>
         </div>
-        <p>
-          Credit-Mitra is an independent financial technology directory and comparison service. When you click &ldquo;Apply Now&rdquo;, you are securely redirected to the issuing bank or financial partner portal. We may receive affiliate compensation from card issuers when applications are approved, at zero additional expense to you. We do not collect PAN numbers, bank passwords, or sensitive credit bureau scores.
-        </p>
-        <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-4 text-xs font-semibold text-slate-700">
-          <Link href="/privacy" className="hover:text-[#1A56DB] transition-colors underline">
+
+        {/* Legal Links */}
+        <div className="flex items-center justify-center gap-3 font-semibold text-slate-500">
+          <Link href="/privacy" className="hover:text-[#1A56DB] transition-colors">
             Privacy Policy
           </Link>
-          <span>•</span>
-          <Link href="/affiliate-disclosure" className="hover:text-[#1A56DB] transition-colors underline">
-            Affiliate Disclosure
+          <span className="text-slate-300">|</span>
+          <Link href="/affiliate-disclosure" className="hover:text-[#1A56DB] transition-colors">
+            Terms &amp; Conditions
           </Link>
-          <span>•</span>
-          <Link href="/contact" className="hover:text-[#1A56DB] transition-colors underline">
-            Contact Support
-          </Link>
-          <span>•</span>
-          <Link href="/admin/login" className="hover:text-[#1A56DB] transition-colors text-slate-400">
-            Partner Login
+          <span className="text-slate-300">|</span>
+          <Link href="/contact" className="hover:text-[#1A56DB] transition-colors">
+            Support
           </Link>
         </div>
       </div>

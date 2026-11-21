@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { getCards } from '@/lib/api';
 import CreditCardsCarousel from '@/components/CreditCardsCarousel';
 import CreditCardsExplorer from '@/components/CreditCardsExplorer';
-import { Sparkle, ShieldCheck, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 
 export const metadata: Metadata = {
   title: 'Credit Cards — Find the Right Credit Card for You | Credit-Mitra',
@@ -29,7 +28,7 @@ interface CreditCardsPageProps {
 }
 
 export default async function CreditCardsPage({ searchParams }: CreditCardsPageProps) {
-  // Fetch active cards from backend API sorted by admin priority (heroOrder: 1, isFeatured: -1, createdAt: -1)
+  // Fetch active cards from backend API sorted by admin priority
   const cardsResponse = await getCards({
     sort: 'hero',
     limit: 30,
@@ -37,76 +36,56 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
 
   const cards = cardsResponse.data || [];
 
-  // Parse optional admin/URL configs for autoplay
+  // Parse optional autoplay interval
   const autoplayInterval = searchParams?.interval ? parseInt(searchParams.interval, 10) : 5000;
   const initialAutoplay = searchParams?.autoplay !== 'false';
 
   return (
-    <div className="relative min-h-screen bg-[#FAF7F2] pb-24 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#FAF7F2] pb-20 overflow-x-hidden">
+      
       {/* ======================================================== */}
-      {/* 1. SOFT AMBIENT PEACH / BLUSH GLOW MESHES */}
+      {/* SOFT FLUID AMBIENT CURVED WAVES (Fintech Brand Aesthetic) */}
       {/* ======================================================== */}
       <div
-        className="absolute -top-32 right-0 w-[550px] h-[550px] pointer-events-none -z-10 opacity-70"
+        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] pointer-events-none -z-10 opacity-70"
         style={{
           background:
-            'radial-gradient(circle at 75% 25%, rgba(254, 215, 226, 0.55) 0%, rgba(254, 240, 138, 0.3) 50%, transparent 70%)',
+            'radial-gradient(ellipse at 50% 30%, rgba(224, 231, 255, 0.6) 0%, rgba(254, 215, 226, 0.35) 45%, rgba(254, 240, 138, 0.2) 70%, transparent 100%)',
         }}
       />
+
       <div
-        className="absolute top-1/3 -left-32 w-[500px] h-[500px] pointer-events-none -z-10 opacity-60"
+        className="absolute top-1/2 -right-40 w-[600px] h-[600px] pointer-events-none -z-10 opacity-50"
         style={{
           background:
-            'radial-gradient(circle at 25% 50%, rgba(254, 226, 226, 0.5) 0%, rgba(253, 230, 138, 0.25) 50%, transparent 70%)',
+            'radial-gradient(circle at 60% 50%, rgba(254, 215, 226, 0.45) 0%, rgba(253, 230, 138, 0.2) 50%, transparent 70%)',
         }}
       />
 
       {/* ======================================================== */}
-      {/* 2. PAGE CONTENT CONTAINER (Mobile-first, Centered) */}
+      {/* MAIN CONTAINER */}
       {/* ======================================================== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 space-y-8 sm:space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-7 sm:space-y-9">
         
         {/* ======================================================== */}
-        {/* SECTION 3.B: SHORT INTRODUCTION */}
+        {/* HEADING SECTION (Exact Reference Typography & Hierarchy) */}
         {/* ======================================================== */}
-        <section aria-label="Page Introduction" className="text-center max-w-2xl mx-auto space-y-3.5">
-          {/* Social Media Welcome Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFF6FF] text-[#1A56DB] text-xs font-bold shadow-xs">
-            <Sparkle size={13} weight="fill" className="text-[#1A56DB]" />
-            <span>Curated Partner Offers • Instant Application</span>
-          </div>
-
-          {/* Specified Heading */}
+        <section aria-label="Hero Title" className="text-center max-w-2xl mx-auto space-y-2.5 pt-2">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B0F17] tracking-tight leading-tight">
-            Find the Right Credit Card for You
+            Find the Right{' '}
+            <span className="bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">
+              Credit Card
+            </span>{' '}
+            for You
           </h1>
 
-          {/* Specified Description */}
-          <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-slate-600 font-medium leading-relaxed max-w-lg mx-auto">
             Explore credit cards, compare fees and benefits, and apply directly.
           </p>
-
-          {/* Trust Highlights */}
-          <div className="pt-1 flex items-center justify-center gap-4 sm:gap-6 text-[11px] sm:text-xs text-slate-500 font-semibold">
-            <span className="flex items-center gap-1">
-              <CheckCircle size={14} weight="fill" className="text-emerald-600" />
-              100% Free Service
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <ShieldCheck size={14} weight="fill" className="text-emerald-600" />
-              Bank Secure Redirection
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <CheckCircle size={14} weight="fill" className="text-emerald-600" />
-              No Hidden Charges
-            </span>
-          </div>
         </section>
 
         {/* ======================================================== */}
-        {/* SECTION 3.C & 3.D: ANIMATED CREDIT CARD CAROUSEL */}
+        {/* 3-CARD PEEKING ANIMATED CAROUSEL (Dominant Center Stage) */}
         {/* ======================================================== */}
         <CreditCardsCarousel
           cards={cards}
@@ -115,7 +94,7 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
         />
 
         {/* ======================================================== */}
-        {/* SECTION 3.F: SUPPORTING CATEGORY FILTERS, LIST & COMPLIANCE */}
+        {/* CATEGORY PILLS BAR, COMPARE BANNER & TRUST FOOTER */}
         {/* ======================================================== */}
         <CreditCardsExplorer cards={cards} />
       </div>

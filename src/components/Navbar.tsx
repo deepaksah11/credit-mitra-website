@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CaretDown, List, X, CreditCard, Bank, Money, Gift, ArrowRight, Sparkle } from '@phosphor-icons/react';
+import { CaretDown, List, X, CreditCard, Bank, Money, Gift, ArrowRight, Sparkle, ShieldCheck } from '@phosphor-icons/react';
 import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
@@ -34,41 +34,48 @@ export default function Navbar() {
   ];
 
   // ========================================================
-  // COMPACT HEADER FOR /credit-cards ROUTE (Requirement 3.A)
+  // COMPACT HEADER FOR /credit-cards ROUTE (Reference Design)
   // ========================================================
   if (isCreditCardsPage) {
     return (
       <header className="w-full relative z-50 transition-all bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-          {/* Left: Brand Logo and "Credit Cards" Title Badge */}
-          <div className="flex items-center gap-2.5 sm:gap-3.5">
-            <Link href="/" className="inline-flex items-center gap-1 group">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+          {/* Left: Brand Logo and Tagline matching CardXpert style */}
+          <Link href="/" className="inline-flex items-center gap-3 group">
+            <BrandLogo size="sm" />
+            <div className="flex flex-col">
               <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0B0F17]">
                 Credit-Mitra<span className="text-[#1A56DB]">.</span>
               </span>
-            </Link>
-            <div className="h-4 w-px bg-slate-300" />
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1A56DB]/10 text-[#1A56DB] text-xs font-bold tracking-wide">
-              <Sparkle size={12} weight="fill" className="text-[#1A56DB]" />
-              <span>Credit Cards</span>
-            </span>
-          </div>
+              <span className="text-[11px] font-semibold text-slate-500 tracking-wide">
+                Smart Card. Better Life.
+              </span>
+            </div>
+          </Link>
 
-          {/* Right: Minimal Navigation */}
-          <nav aria-label="Compact Navigation" className="flex items-center gap-4 sm:gap-6">
-            <Link
-              href="/compare"
-              className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B0F17] transition-colors"
-            >
-              Compare
-            </Link>
-            <Link
-              href="/"
-              className="text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B0F17] transition-colors"
-            >
-              Home
-            </Link>
-          </nav>
+          {/* Right: 100% Secure Badge & Navigation Links */}
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold shadow-xs">
+              <ShieldCheck size={16} weight="fill" className="text-emerald-600" />
+              <span>100% Secure</span>
+            </div>
+
+            <nav aria-label="Compact Navigation" className="flex items-center gap-3 sm:gap-4">
+              <Link
+                href="/compare"
+                className="text-xs sm:text-sm font-bold text-slate-700 hover:text-[#1A56DB] transition-colors hidden xs:inline-block"
+              >
+                Compare
+              </Link>
+              <Link
+                href="/"
+                className="p-2 rounded-full hover:bg-slate-200 text-slate-700 transition-colors"
+                title="Home"
+              >
+                <List size={22} weight="bold" />
+              </Link>
+            </nav>
+          </div>
         </div>
       </header>
     );

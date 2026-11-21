@@ -7,26 +7,77 @@ import { Card } from '@/types/card';
 import { formatCurrency } from '@/lib/utils';
 import { API_BASE_URL } from '@/lib/api';
 import {
+  HdfcBankLogo,
+  SbiCardLogo,
+  IciciBankLogo,
+  AxisBankLogo,
+} from './BankLogos';
+import {
   CaretLeft,
   CaretRight,
-  ArrowRight,
-  ArrowSquareOut,
   Eye,
-  Check,
+  Lightning,
   Sparkle,
-  Pause,
-  Play,
-  ShieldCheck,
+  Gift,
   AirplaneTilt,
+  ForkKnife,
   Percent,
+  Check,
+  Star,
+  Bank,
   CreditCard as CardIcon,
-  Tag,
 } from '@phosphor-icons/react';
 
 interface CreditCardsCarouselProps {
   cards: Card[];
   autoplayInterval?: number;
   initialAutoplay?: boolean;
+}
+
+// Bank Logo Helper Component matching the reference badge style
+function BankLogoBadge({ bankName }: { bankName: string }) {
+  const lower = (bankName || '').toLowerCase();
+  if (lower.includes('hdfc')) {
+    return <HdfcBankLogo className="h-5" />;
+  }
+  if (lower.includes('sbi')) {
+    return <SbiCardLogo className="h-5" />;
+  }
+  if (lower.includes('icici')) {
+    return <IciciBankLogo className="h-5" />;
+  }
+  if (lower.includes('axis')) {
+    return <AxisBankLogo className="h-5" />;
+  }
+  return (
+    <div className="flex items-center gap-1.5 font-extrabold text-[#0B0F17] text-xs">
+      <Bank size={16} weight="fill" className="text-[#1A56DB]" />
+      <span>{bankName}</span>
+    </div>
+  );
+}
+
+// Benefit Icon Helper matching reference icons
+function BenefitItem({ text }: { text: string }) {
+  const lower = text.toLowerCase();
+
+  let icon = <Check size={16} weight="bold" className="text-[#1A56DB]" />;
+  if (lower.includes('lounge') || lower.includes('airport') || lower.includes('flight') || lower.includes('travel')) {
+    icon = <AirplaneTilt size={16} weight="fill" className="text-[#1A56DB]" />;
+  } else if (lower.includes('reward') || lower.includes('point') || lower.includes('voucher') || lower.includes('gift')) {
+    icon = <Gift size={16} weight="fill" className="text-amber-500" />;
+  } else if (lower.includes('dining') || lower.includes('food') || lower.includes('swiggy') || lower.includes('zomato')) {
+    icon = <ForkKnife size={16} weight="fill" className="text-rose-500" />;
+  } else if (lower.includes('cashback') || lower.includes('%') || lower.includes('discount')) {
+    icon = <Percent size={16} weight="bold" className="text-emerald-600" />;
+  }
+
+  return (
+    <li className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-snug">
+      <span className="flex-shrink-0">{icon}</span>
+      <span className="line-clamp-1">{text}</span>
+    </li>
+  );
 }
 
 export default function CreditCardsCarousel({
@@ -40,72 +91,49 @@ export default function CreditCardsCarousel({
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragCurrentX, setDragCurrentX] = useState(0);
-  const [progress, setProgress] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const progressTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const totalCards = cards.length;
 
-  // Check for prefers-reduced-motion
+  // Check prefers-reduced-motion
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setReducedMotion(mediaQuery.matches);
-
       const handleChange = (e: MediaQueryListEvent) => {
         setReducedMotion(e.matches);
         if (e.matches) setIsPlaying(false);
       };
-
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, []);
 
-  // Navigation handlers
   const goToNext = useCallback(() => {
     if (totalCards <= 1) return;
     setCurrentIndex((prev) => (prev + 1) % totalCards);
-    setProgress(0);
   }, [totalCards]);
 
   const goToPrev = useCallback(() => {
     if (totalCards <= 1) return;
     setCurrentIndex((prev) => (prev - 1 + totalCards) % totalCards);
-    setProgress(0);
   }, [totalCards]);
 
   const goToSlide = (index: number) => {
     if (index === currentIndex) return;
     setCurrentIndex(index);
-    setProgress(0);
   };
 
-  // Autoplay and progress bar ticker
+  // Autoplay ticker
   useEffect(() => {
     if (totalCards <= 1 || !isPlaying || isHovered || isDragging || reducedMotion) {
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current);
       return;
     }
+    const timer = setInterval(() => {
+      goToNext();
+    }, autoplayInterval);
 
-    const intervalStep = 50; // update progress every 50ms
-    const totalSteps = autoplayInterval / intervalStep;
-
-    progressTimerRef.current = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          goToNext();
-          return 0;
-        }
-        return prev + 100 / totalSteps;
-      });
-    }, intervalStep);
-
-    return () => {
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current);
-    };
+    return () => clearInterval(timer);
   }, [totalCards, isPlaying, isHovered, isDragging, reducedMotion, autoplayInterval, goToNext]);
 
   // Touch Swipe Handlers
@@ -125,11 +153,9 @@ export default function CreditCardsCarousel({
     if (!isDragging) return;
     setIsDragging(false);
     const diff = dragStartX - dragCurrentX;
-    const threshold = 50; // min swipe distance in px
-
-    if (diff > threshold) {
+    if (diff > 50) {
       goToNext();
-    } else if (diff < -threshold) {
+    } else if (diff < -50) {
       goToPrev();
     }
     setDragStartX(0);
@@ -153,11 +179,9 @@ export default function CreditCardsCarousel({
     if (!isDragging) return;
     setIsDragging(false);
     const diff = dragStartX - dragCurrentX;
-    const threshold = 50;
-
-    if (diff > threshold) {
+    if (diff > 50) {
       goToNext();
-    } else if (diff < -threshold) {
+    } else if (diff < -50) {
       goToPrev();
     }
     setDragStartX(0);
@@ -165,53 +189,40 @@ export default function CreditCardsCarousel({
   };
 
   const handleMouseLeave = () => {
-    if (isDragging) {
-      handleMouseUp();
-    }
+    if (isDragging) handleMouseUp();
     setIsHovered(false);
   };
 
-  if (!cards || cards.length === 0) {
+  if (totalCards === 0) {
     return (
-      <div className="w-full max-w-4xl mx-auto p-10 text-center rounded-3xl bg-white shadow-xl shadow-black/[0.03]">
+      <div className="w-full max-w-4xl mx-auto p-12 text-center rounded-3xl bg-white shadow-xl shadow-black/[0.03]">
         <CardIcon size={48} className="mx-auto text-slate-300 mb-3" />
-        <h3 className="text-lg font-bold text-[#0B0F17]">No Credit Cards Available</h3>
-        <p className="text-sm text-slate-500 mt-1">
-          Active credit cards will appear here once configured by the admin.
-        </p>
+        <h3 className="text-lg font-bold text-[#0B0F17]">No Credit Cards Configured</h3>
+        <p className="text-sm text-slate-500 mt-1">Cards will display here once added by admin.</p>
       </div>
     );
   }
 
-  // Get benefit icon based on text
-  const getBenefitIcon = (benefitText: string) => {
-    const lower = benefitText.toLowerCase();
-    if (lower.includes('lounge') || lower.includes('flight') || lower.includes('travel')) {
-      return <AirplaneTilt size={15} weight="fill" className="text-[#1A56DB]" />;
-    }
-    if (lower.includes('cashback') || lower.includes('%') || lower.includes('discount')) {
-      return <Percent size={15} weight="bold" className="text-emerald-600" />;
-    }
-    if (lower.includes('reward') || lower.includes('point') || lower.includes('voucher')) {
-      return <Sparkle size={15} weight="fill" className="text-amber-500" />;
-    }
-    if (lower.includes('free') || lower.includes('waiver')) {
-      return <Tag size={15} weight="fill" className="text-purple-600" />;
-    }
-    return <Check size={15} weight="bold" className="text-emerald-600" />;
-  };
+  // Indices for the 3-card peeking display (Prev, Current, Next)
+  const prevIndex = (currentIndex - 1 + totalCards) % totalCards;
+  const nextIndex = (currentIndex + 1) % totalCards;
+
+  const currentCard = cards[currentIndex];
+  const prevCard = cards[prevIndex];
+  const nextCard = cards[nextIndex];
 
   return (
     <section
-      aria-label="Featured Credit Cards Carousel"
-      className="w-full max-w-5xl mx-auto relative select-none"
+      aria-label="Credit Card Carousel"
+      className="w-full max-w-6xl mx-auto relative select-none px-2 sm:px-6 my-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Outer Card Carousel Container with Soft Shadows & Zero Borders */}
+      {/* ======================================================== */}
+      {/* 3-CARD PEEKING VIEWPORT CONTAINER */}
+      {/* ======================================================== */}
       <div
-        ref={containerRef}
-        className="relative overflow-hidden rounded-3xl bg-white shadow-2xl shadow-black/[0.04] p-5 sm:p-8 md:p-10 cursor-grab active:cursor-grabbing transition-shadow duration-300"
+        className="relative flex items-center justify-center overflow-hidden py-4 sm:py-6"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -219,243 +230,235 @@ export default function CreditCardsCarousel({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
       >
-        {/* Carousel Slider Track */}
-        <div
-          className={`flex ${reducedMotion ? '' : 'transition-transform duration-500 ease-out'}`}
-          style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
-          }}
-        >
-          {cards.map((card, idx) => {
-            const applyUrl = `${API_BASE_URL}/go/${card.slug}`;
-            const detailUrl = `/cards/${card.slug}`;
-            const keyBenefits = card.benefits?.slice(0, 3) || [];
+        {/* ======================================================== */}
+        {/* PREVIOUS CARD PEEK (Left side background) */}
+        {/* ======================================================== */}
+        {totalCards > 1 && (
+          <div
+            onClick={goToPrev}
+            className="hidden md:block absolute left-0 w-[420px] lg:w-[480px] -translate-x-[72%] lg:-translate-x-[68%] scale-[0.88] opacity-35 hover:opacity-50 transition-all duration-500 z-0 cursor-pointer pointer-events-auto filter blur-[0.5px]"
+            title={`Previous: ${prevCard.title}`}
+          >
+            <div className="rounded-[28px] bg-white p-6 shadow-xl shadow-black/10 flex flex-col justify-between h-[360px] pointer-events-none">
+              <div className="flex items-center justify-between">
+                <BankLogoBadge bankName={prevCard.bankName} />
+              </div>
+              <div className="relative w-full h-44 rounded-xl overflow-hidden shadow-md my-auto">
+                {prevCard.imageUrl ? (
+                  <Image src={prevCard.imageUrl} alt={prevCard.title} fill className="object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-slate-800" />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
-            return (
-              <div
-                key={card._id || idx}
-                className="w-full flex-shrink-0"
-                aria-hidden={idx !== currentIndex}
-              >
-                <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
-                  {/* Left Column: Floating Visual Card with 3D Aura Effect */}
-                  <div className="w-full lg:w-[45%] flex flex-col items-center justify-center">
-                    <div className="relative w-full max-w-[340px] sm:max-w-[380px] aspect-[1.586] rounded-2xl p-1 group">
-                      {/* Ambient Glow Aura */}
-                      <div
-                        className="absolute inset-0 -z-10 rounded-3xl blur-2xl opacity-40 transition-opacity group-hover:opacity-60"
-                        style={{
-                          background:
-                            card.category === 'Travel'
-                              ? 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(99, 102, 241, 0.2) 70%, transparent 100%)'
-                              : card.category === 'Cashback'
-                              ? 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(245, 158, 11, 0.2) 70%, transparent 100%)'
-                              : 'radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, rgba(236, 72, 153, 0.2) 70%, transparent 100%)',
-                        }}
-                      />
+        {/* ======================================================== */}
+        {/* CENTER ACTIVE CARD (Matching Reference Image Exact Layout) */}
+        {/* ======================================================== */}
+        <div className="relative z-10 w-full max-w-[760px] mx-auto rounded-[32px] bg-white p-5 sm:p-7 md:p-9 shadow-2xl shadow-indigo-950/[0.08] transition-all duration-500 ease-out">
+          
+          {/* Top Bar: Bank Logo Badge (Left) & Most Popular / Featured Pill (Right) */}
+          <div className="flex items-center justify-between gap-3 mb-5 sm:mb-6">
+            {/* Bank Logo in Soft Container */}
+            <div className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-[#FAF7F2] inline-flex items-center shadow-xs">
+              <BankLogoBadge bankName={currentCard.bankName} />
+            </div>
 
-                      {/* Floating Card Image */}
-                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-black/20 transform lg:-rotate-2 lg:group-hover:rotate-0 transition-transform duration-500 ease-out">
-                        {card.imageUrl ? (
-                          <Image
-                            src={card.imageUrl}
-                            alt={card.title}
-                            fill
-                            priority={idx === 0}
-                            className="object-cover"
-                            sizes="(max-width: 768px) 340px, 400px"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-5 flex flex-col justify-between">
-                            <span className="text-xs uppercase tracking-widest text-slate-300 font-bold">
-                              {card.bankName}
-                            </span>
-                            <span className="text-base font-bold line-clamp-1">{card.title}</span>
-                          </div>
-                        )}
-                      </div>
+            {/* Most Popular / Hero Tag Pill */}
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FEF3C7] text-[#92400E] text-xs font-bold shadow-xs">
+              <Star size={13} weight="fill" className="text-amber-500" />
+              <span>{currentCard.heroTag || (currentCard.isFeatured ? 'Most Popular' : 'Top Choice')}</span>
+            </div>
+          </div>
+
+          {/* Main Card Content: Card Visual (Left) & Details / Fees / Benefits (Right) */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+            
+            {/* Left: Floating Credit Card Mockup */}
+            <div className="w-full sm:w-[45%] flex-shrink-0 flex justify-center">
+              <div className="relative w-full max-w-[320px] aspect-[1.586] rounded-2xl p-0.5 group/card">
+                {/* Soft ambient radial aura behind card */}
+                <div
+                  className="absolute inset-0 -z-10 rounded-2xl blur-xl opacity-35"
+                  style={{
+                    background:
+                      currentCard.category === 'Travel'
+                        ? 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%)'
+                        : currentCard.category === 'Cashback'
+                        ? 'radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%)'
+                        : 'radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%)',
+                  }}
+                />
+
+                {/* Card Visual with Realistic Shadow */}
+                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl shadow-black/20 transform sm:-rotate-1 sm:group-hover/card:rotate-0 transition-transform duration-500">
+                  {currentCard.imageUrl ? (
+                    <Image
+                      src={currentCard.imageUrl}
+                      alt={currentCard.title}
+                      fill
+                      priority
+                      className="object-cover"
+                      sizes="(max-width: 640px) 300px, 340px"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-4 flex flex-col justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-widest">{currentCard.bankName}</span>
+                      <span className="text-sm font-bold line-clamp-1">{currentCard.title}</span>
                     </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
-                    {/* Subtle Card Category Pill under card on mobile */}
-                    <div className="mt-4 flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold text-slate-700 bg-[#F5F2EB]">
-                        {card.bankName}
-                      </span>
-                      <span className="px-3 py-1 rounded-full text-xs font-bold text-[#1A56DB] bg-[#EFF6FF]">
-                        {card.category}
-                      </span>
-                      {card.isFeatured && (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold text-amber-900 bg-[#FEF3C7] flex items-center gap-1">
-                          <Sparkle size={12} weight="fill" className="text-amber-500" />
-                          <span>Featured</span>
-                        </span>
-                      )}
-                    </div>
+            {/* Right: Card Title, Fee Pills, Key Benefits */}
+            <div className="w-full sm:w-[55%] flex flex-col justify-between space-y-4 sm:space-y-5 text-left">
+              
+              {/* Card Title */}
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-[#0B0F17] tracking-tight leading-snug">
+                  {currentCard.title}
+                </h2>
+              </div>
+
+              {/* Fee Boxes: Side-by-Side (Exact Reference Layout) */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Joining Fee Box */}
+                <div className="p-3 sm:p-3.5 rounded-2xl bg-[#FAF7F2] text-center space-y-0.5">
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">
+                    Joining Fee
+                  </span>
+                  <div className="text-lg sm:text-xl font-black text-[#0B0F17]">
+                    {formatCurrency(currentCard.joiningFee)}
                   </div>
+                </div>
 
-                  {/* Right Column: Card Information, Fees, Benefits, Actions */}
-                  <div className="w-full lg:w-[55%] flex flex-col justify-between space-y-5 text-left">
-                    {/* Card Title & Hero Tag */}
-                    <div className="space-y-2">
-                      {card.heroTag && (
-                        <span className="inline-block text-xs font-extrabold text-[#9A3412] bg-[#FDE4CE] px-3 py-1 rounded-full shadow-xs">
-                          {card.heroTag}
-                        </span>
-                      )}
-                      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B0F17] tracking-tight leading-snug">
-                        {card.title}
-                      </h2>
-                      <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                        Issued by <strong className="text-slate-800">{card.bankName}</strong> • Verified Partner Application
-                      </p>
-                    </div>
-
-                    {/* Fee Summary Cards (Zero Border, Soft Fill) */}
-                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                      {/* Joining Fee Box */}
-                      <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF7F2] space-y-1">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                          Joining Fee
-                        </span>
-                        <div className="text-lg sm:text-xl font-extrabold text-[#0B0F17]">
-                          {formatCurrency(card.joiningFee)}
-                        </div>
-                        <span className="text-[11px] text-slate-500 block">One-time setup</span>
-                      </div>
-
-                      {/* Annual Fee Box */}
-                      <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF7F2] space-y-1">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                          Annual Fee
-                        </span>
-                        <div className="text-lg sm:text-xl font-extrabold text-[#0B0F17]">
-                          {formatCurrency(card.annualFee)}
-                        </div>
-                        <span className="text-[11px] text-emerald-700 font-semibold block truncate" title={card.feeWaiver || 'Yearly renewal'}>
-                          {card.feeWaiver ? card.feeWaiver.slice(0, 24) + '...' : 'Yearly renewal'}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Key Benefits */}
-                    <div className="space-y-2.5">
-                      <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Key Privileges &amp; Rewards:
-                      </span>
-                      <ul className="space-y-2">
-                        {keyBenefits.map((benefit, bIdx) => (
-                          <li
-                            key={bIdx}
-                            className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-snug"
-                          >
-                            <span className="mt-0.5 p-1 rounded-full bg-[#FAF7F2] flex-shrink-0">
-                              {getBenefitIcon(benefit)}
-                            </span>
-                            <span>{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Action Buttons: VIEW & APPLY NOW */}
-                    <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-                      {/* Apply Now: Redirects through backend referral click tracking */}
-                      <a
-                        href={applyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full sm:flex-1 py-3.5 px-6 rounded-full bg-[#0B0F17] hover:bg-[#1A56DB] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-black/10 active:scale-95 transition-all group/apply"
-                      >
-                        <span>Apply Now</span>
-                        <ArrowSquareOut
-                          size={18}
-                          weight="bold"
-                          className="transition-transform group-hover/apply:translate-x-0.5 group-hover/apply:-translate-y-0.5"
-                        />
-                      </a>
-
-                      {/* View Details: Navigates to individual card slug page */}
-                      <Link
-                        href={detailUrl}
-                        className="w-full sm:w-auto py-3.5 px-6 rounded-full bg-[#FAF7F2] hover:bg-[#F0ECE1] text-[#0B0F17] font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all active:scale-95"
-                      >
-                        <Eye size={18} weight="bold" />
-                        <span>View Details</span>
-                      </Link>
-                    </div>
+                {/* Annual Fee Box */}
+                <div className="p-3 sm:p-3.5 rounded-2xl bg-[#FAF7F2] text-center space-y-0.5">
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase tracking-wider">
+                    Annual Fee
+                  </span>
+                  <div className="text-lg sm:text-xl font-black text-[#0B0F17]">
+                    {formatCurrency(currentCard.annualFee)}
                   </div>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Key Benefits List with Icons (Gift, Lounge, Dining) */}
+              <div className="space-y-2 pt-1">
+                <ul className="space-y-2">
+                  {currentCard.benefits && currentCard.benefits.length > 0 ? (
+                    currentCard.benefits.slice(0, 3).map((benefit, bIdx) => (
+                      <BenefitItem key={bIdx} text={benefit} />
+                    ))
+                  ) : (
+                    <>
+                      <BenefitItem text="Up to 5X accelerated reward points on online retail" />
+                      <BenefitItem text="Complimentary domestic airport lounge access" />
+                      <BenefitItem text="Exclusive dining and entertainment discounts" />
+                    </>
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Actions Row: VIEW DETAILS & APPLY NOW (Side-by-Side) */}
+          <div className="mt-6 sm:mt-8 pt-5 border-t border-slate-100 flex flex-col xs:flex-row items-center gap-3">
+            {/* View Details Button */}
+            <Link
+              href={`/cards/${currentCard.slug}`}
+              className="w-full xs:flex-1 py-3.5 px-6 rounded-2xl bg-[#FAF7F2] hover:bg-[#EFEAE1] text-[#0B0F17] font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xs"
+            >
+              <Eye size={18} weight="bold" className="text-slate-600" />
+              <span>View Details</span>
+            </Link>
+
+            {/* Apply Now Button: Vibrant High-Contrast Pill with Lightning Icon */}
+            <a
+              href={`${API_BASE_URL}/go/${currentCard.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full xs:flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] hover:from-[#1E40AF] hover:to-[#6D28D9] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25 active:scale-95 transition-all group/apply"
+            >
+              <Lightning size={18} weight="fill" className="text-amber-300 group-hover/apply:scale-110 transition-transform" />
+              <span>Apply Now</span>
+            </a>
+          </div>
         </div>
 
-        {/* Progress Bar (Visual indicator for 5s auto-slide) */}
-        {isPlaying && totalCards > 1 && (
-          <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[#1A56DB] to-[#06B6D4] transition-all duration-75 ease-linear"
-              style={{ width: `${progress}%` }}
-            />
+        {/* ======================================================== */}
+        {/* NEXT CARD PEEK (Right side background) */}
+        {/* ======================================================== */}
+        {totalCards > 1 && (
+          <div
+            onClick={goToNext}
+            className="hidden md:block absolute right-0 w-[420px] lg:w-[480px] translate-x-[72%] lg:translate-x-[68%] scale-[0.88] opacity-35 hover:opacity-50 transition-all duration-500 z-0 cursor-pointer pointer-events-auto filter blur-[0.5px]"
+            title={`Next: ${nextCard.title}`}
+          >
+            <div className="rounded-[28px] bg-white p-6 shadow-xl shadow-black/10 flex flex-col justify-between h-[360px] pointer-events-none">
+              <div className="flex items-center justify-between">
+                <BankLogoBadge bankName={nextCard.bankName} />
+              </div>
+              <div className="relative w-full h-44 rounded-xl overflow-hidden shadow-md my-auto">
+                {nextCard.imageUrl ? (
+                  <Image src={nextCard.imageUrl} alt={nextCard.title} fill className="object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-slate-800" />
+                )}
+              </div>
+            </div>
           </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* FLOATING NAVIGATION ARROWS (Left & Right) */}
+        {/* ======================================================== */}
+        {totalCards > 1 && (
+          <>
+            {/* Left Arrow Button */}
+            <button
+              type="button"
+              onClick={goToPrev}
+              aria-label="Previous credit card"
+              className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white shadow-xl shadow-black/10 hover:bg-[#0B0F17] hover:text-white flex items-center justify-center text-slate-800 transition-all active:scale-90"
+            >
+              <CaretLeft size={22} weight="bold" />
+            </button>
+
+            {/* Right Arrow Button */}
+            <button
+              type="button"
+              onClick={goToNext}
+              aria-label="Next credit card"
+              className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white shadow-xl shadow-black/10 hover:bg-[#0B0F17] hover:text-white flex items-center justify-center text-slate-800 transition-all active:scale-90"
+            >
+              <CaretRight size={22} weight="bold" />
+            </button>
+          </>
         )}
       </div>
 
-      {/* Carousel Navigation Footer Controls */}
+      {/* ======================================================== */}
+      {/* PAGINATION DOTS (Active pill + soft dots) */}
+      {/* ======================================================== */}
       {totalCards > 1 && (
-        <div className="mt-5 flex items-center justify-between px-2 sm:px-4">
-          {/* Left: Previous Arrow */}
-          <button
-            type="button"
-            onClick={goToPrev}
-            aria-label="Previous credit card"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white shadow-md shadow-black/5 hover:bg-[#0B0F17] hover:text-white flex items-center justify-center text-slate-800 transition-all active:scale-90"
-          >
-            <CaretLeft size={20} weight="bold" />
-          </button>
-
-          {/* Center: Slide Indicators / Dots */}
-          <div className="flex items-center gap-2">
-            {cards.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  i === currentIndex
-                    ? 'w-8 bg-[#0B0F17]'
-                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
-
-            {/* Slide Index Text */}
-            <span className="ml-2 text-xs font-bold text-slate-400 tabular-nums">
-              {String(currentIndex + 1).padStart(2, '0')} / {String(totalCards).padStart(2, '0')}
-            </span>
-
-            {/* Pause / Play Button */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {cards.map((_, i) => (
             <button
+              key={i}
               type="button"
-              onClick={() => setIsPlaying(!isPlaying)}
-              aria-label={isPlaying ? 'Pause autoplay' : 'Play autoplay'}
-              className="ml-3 p-1.5 rounded-full hover:bg-slate-200 text-slate-400 hover:text-slate-700 transition-colors"
-              title={isPlaying ? 'Pause autoplay' : 'Resume autoplay'}
-            >
-              {isPlaying ? <Pause size={14} weight="fill" /> : <Play size={14} weight="fill" />}
-            </button>
-          </div>
-
-          {/* Right: Next Arrow */}
-          <button
-            type="button"
-            onClick={goToNext}
-            aria-label="Next credit card"
-            className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white shadow-md shadow-black/5 hover:bg-[#0B0F17] hover:text-white flex items-center justify-center text-slate-800 transition-all active:scale-90"
-          >
-            <CaretRight size={20} weight="bold" />
-          </button>
+              onClick={() => goToSlide(i)}
+              aria-label={`Go to card ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                i === currentIndex
+                  ? 'w-7 h-2 bg-[#1A56DB]'
+                  : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
+              }`}
+            />
+          ))}
         </div>
       )}
     </section>
