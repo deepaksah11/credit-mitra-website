@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'credit card comparison',
     'credit card referral',
   ],
-  metadataBase: new URL('https://creditmitra.com'),
+  metadataBase: new URL('https://wegeti.com'),
   openGraph: {
     title: 'Credit Mitra — Transparent Credit Card Comparison',
     description:

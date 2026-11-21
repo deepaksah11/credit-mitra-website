@@ -14,7 +14,7 @@ export function getWhatsAppShareUrl(cardTitle: string, cardSlug: string): string
   const currentOrigin =
     typeof window !== 'undefined'
       ? window.location.origin
-      : 'https://creditmitra.com';
+      : 'https://wegeti.com';
 
   const cardUrl = `${currentOrigin}/cards/${cardSlug}`;
   const message = `Check out this credit card: ${cardTitle}\nFull benefits and direct application:\n${cardUrl}`;
