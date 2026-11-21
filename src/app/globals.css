@@ -9,8 +9,8 @@
 
   body {
     font-family: var(--font-geist);
-    background-color: #FAFAFA;
-    color: #181818;
+    background-color: #FAF7F2;
+    color: #0B0F17;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -191,5 +191,18 @@
 
 .animate-progress-fill {
   animation-name: progressFill;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
 }
 

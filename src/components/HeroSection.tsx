@@ -1,22 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  Lightning,
   ArrowRight,
-  Play,
-  Pause,
-  Gift,
-  ShieldCheck,
-  CurrencyInr,
-  X,
+  Sparkle,
+  ArrowSquareOut,
   CaretLeft,
   CaretRight,
   Check,
-  Sparkle,
-  ArrowSquareOut,
 } from '@phosphor-icons/react';
 import { Card } from '@/types/card';
 import { formatCurrency } from '@/lib/utils';
@@ -26,596 +19,388 @@ interface HeroSectionProps {
   heroCards?: Card[];
 }
 
-const SLIDE_DURATION = 4200; // 4.2 seconds per slide for a brisk, engaging auto-slide
-
 export default function HeroSection({ heroCards = [] }: HeroSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [direction, setDirection] = useState<'next' | 'prev'>('next');
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Total slides: Slide 0 is Flagship Brand Slide, followed by any admin-featured hero cards
+  // Total slides: Slide 0 is the Flagship Reference Design, followed by any admin-featured hero cards
   const totalSlides = 1 + heroCards.length;
-
-  // Auto-slide effect
-  useEffect(() => {
-    if (totalSlides <= 1 || !isAutoPlaying || isHovered) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
-
-    timerRef.current = setInterval(() => {
-      setDirection('next');
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, SLIDE_DURATION);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [totalSlides, isAutoPlaying, isHovered, currentSlide]);
-
-  const goToPrevSlide = () => {
-    setDirection('prev');
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const goToNextSlide = () => {
-    setDirection('next');
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const selectSlide = (index: number) => {
-    setDirection(index > currentSlide ? 'next' : 'prev');
-    setCurrentSlide(index);
-  };
-
-  // Currently active card if not on Slide 0
   const activeCard: Card | null = currentSlide > 0 ? heroCards[currentSlide - 1] : null;
 
   return (
     <section
-      className="relative overflow-hidden pt-4 pb-12 md:pt-8 md:pb-20 select-none group/hero"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative overflow-hidden pt-4 pb-4 md:pt-8 md:pb-6 select-none bg-[#FAF7F2] group/hero"
+      aria-label="Hero Section"
     >
-      {/* Background Soft Blue & Cyan Ambient Glow Mesh */}
+      {/* ======================================================== */}
+      {/* 1. SOFT AMBIENT GRADIENT GLOWS */}
+      {/* ======================================================== */}
+      {/* Soft peach blush glow on bottom-left */}
       <div
-        className="absolute -top-24 right-0 w-[650px] lg:w-[850px] h-[650px] pointer-events-none -z-10"
+        className="absolute -bottom-10 -left-10 w-[500px] h-[500px] pointer-events-none -z-10 opacity-70"
         style={{
           background:
-            'radial-gradient(circle at 70% 30%, rgba(147, 197, 253, 0.4) 0%, rgba(191, 219, 254, 0.2) 45%, transparent 70%)',
+            'radial-gradient(circle at 20% 80%, rgba(254, 215, 226, 0.6) 0%, rgba(254, 226, 226, 0.2) 50%, transparent 70%)',
         }}
       />
+      {/* Warm champagne golden peach glow in top-right */}
       <div
-        className="absolute top-12 left-0 w-[450px] h-[450px] pointer-events-none -z-10 opacity-60"
+        className="absolute -top-20 right-0 w-[650px] h-[650px] pointer-events-none -z-10 opacity-75"
         style={{
           background:
-            'radial-gradient(circle at 20% 25%, rgba(224, 242, 254, 0.6) 0%, transparent 65%)',
+            'radial-gradient(circle at 75% 25%, rgba(254, 240, 138, 0.5) 0%, rgba(253, 230, 138, 0.25) 45%, transparent 70%)',
+        }}
+      />
+      {/* Soft rose ambient tint behind cards */}
+      <div
+        className="absolute top-1/4 right-[10%] w-[450px] h-[450px] pointer-events-none -z-10 opacity-60"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 50%, rgba(254, 215, 215, 0.5) 0%, transparent 65%)',
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center min-h-[440px]">
-          
-          {/* ======================================================== */}
-          {/* LEFT COLUMN: Slide Content (Headline / Special Features / CTA) */}
-          {/* ======================================================== */}
-          <div className="lg:col-span-7 space-y-5 text-left z-10 min-h-[380px] flex flex-col justify-center">
-            
-            {/* Dynamic key triggers a smooth horizontal slide transition */}
-            <div
-              key={`slide-content-${currentSlide}`}
-              className={`space-y-5 transition-all duration-500 ease-out ${
-                direction === 'next'
-                  ? 'animate-in fade-in slide-in-from-right-8 duration-500'
-                  : 'animate-in fade-in slide-in-from-left-8 duration-500'
-              }`}
-            >
-              {/* SLIDE 0: Platform Flagship Overview */}
-              {currentSlide === 0 ? (
-                <div className="space-y-6">
-                  {/* Tag / Pill Badge */}
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/70 border border-blue-200/50 text-blue-600 text-xs sm:text-sm font-semibold shadow-sm">
-                    <Lightning size={16} weight="fill" className="text-blue-600 flex-shrink-0" />
-                    <span>Compare • Apply • Earn Rewards</span>
-                  </div>
+      {/* ======================================================== */}
+      {/* 2. MAIN HERO CONTAINER (Restricted to max-w-7xl so it stays centered on Ultrawide screens) */}
+      {/* ======================================================== */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* ======================================================== */}
+        {/* PARABOLIC GOLDEN RIBBON: Positioned inside container so it NEVER drifts on wide monitors */}
+        {/* ======================================================== */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
+          <svg
+            viewBox="0 0 1280 760"
+            className="w-full h-full object-cover"
+            fill="none"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              <linearGradient id="ribbonParabolicGrad" x1="40%" y1="0%" x2="90%" y2="100%">
+                <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.85" />
+                <stop offset="35%" stopColor="#FDE68A" stopOpacity="0.8" />
+                <stop offset="70%" stopColor="#FDBA74" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#FED7AA" stopOpacity="0.5" />
+              </linearGradient>
+              <filter id="ribbonGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="16" stdDeviation="22" floodColor="#F59E0B" floodOpacity="0.22" />
+              </filter>
+            </defs>
 
-                  {/* Main Headline */}
-                  <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-[1.14] text-[#0A192F]">
-                    <span>Credit-Mitra</span>
-                    <br />
-                    <span className="font-bold text-[#0F172A]">Your Trusted Guide for</span>
-                    <br />
-                    <span className="text-[#1E40AF]">Credit &amp; Financial Products</span>
-                  </h1>
-
-                  {/* Subtitle */}
-                  <p className="text-slate-600 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
-                    Find the best credit cards, loans and more — all in one place, with expert guidance and exclusive rewards.
-                  </p>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
-                    <Link
-                      href="/cards"
-                      className="rounded-full bg-[#1A56DB] hover:bg-blue-700 active:scale-[0.98] text-white font-medium px-7 py-3.5 text-sm sm:text-base flex items-center gap-2 shadow-lg shadow-blue-600/25 transition-all group"
-                    >
-                      <span>Explore Credit Cards</span>
-                      <ArrowRight size={18} weight="bold" className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
-
-                    <button
-                      type="button"
-                      onClick={() => setVideoModalOpen(true)}
-                      className="rounded-full border border-[#1A56DB] text-[#1A56DB] hover:bg-blue-50/70 active:scale-[0.98] font-medium px-6 py-3.5 text-sm sm:text-base flex items-center gap-2.5 transition-all bg-white shadow-sm"
-                    >
-                      <div className="w-5 h-5 rounded-full bg-[#1A56DB] text-white flex items-center justify-center flex-shrink-0">
-                        <Play size={10} weight="fill" className="ml-0.5" />
-                      </div>
-                      <span>Watch Video</span>
-                    </button>
-                  </div>
-                </div>
-              ) : activeCard ? (
-                /* SLIDE 1..N: Admin Configured Hero Product Slide */
-                <div className="space-y-5">
-                  {/* Hero Badge Tag */}
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/90 border border-blue-200 text-[#1A56DB] text-xs sm:text-sm font-bold shadow-sm">
-                      <Sparkle size={15} weight="fill" className="text-blue-600 flex-shrink-0" />
-                      <span>{activeCard.heroTag || '⚡ Featured Hero Product'}</span>
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
-                      {activeCard.bankName}
-                    </span>
-                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-                      {activeCard.category}
-                    </span>
-                  </div>
-
-                  {/* Card Title */}
-                  <div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-[#0A192F]">
-                      {activeCard.title}
-                    </h2>
-                    <p className="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
-                      Joining Fee: {formatCurrency(activeCard.joiningFee)} • Annual Fee: {formatCurrency(activeCard.annualFee)}
-                      {activeCard.feeWaiver ? ` (${activeCard.feeWaiver})` : ''}
-                    </p>
-                  </div>
-
-                  {/* Special Features (bullet points configured by admin) */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-sm border border-blue-100 shadow-sm space-y-2.5 max-w-xl">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#1A56DB]" />
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                        Special Features &amp; Benefits
-                      </span>
-                    </div>
-                    <div className="space-y-2">
-                      {(activeCard.heroSpecialFeatures && activeCard.heroSpecialFeatures.length > 0
-                        ? activeCard.heroSpecialFeatures
-                        : activeCard.benefits.slice(0, 3)
-                      ).map((feature, idx) => (
-                        <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                          <div className="w-4 h-4 rounded-full bg-blue-100 text-[#1A56DB] flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <Check size={11} weight="bold" />
-                          </div>
-                          <span className="leading-snug">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Buttons: Apply Now & Card Details */}
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
-                    {/* Official Apply Now Link */}
-                    <a
-                      href={`${API_BASE_URL}/go/${activeCard.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-full bg-[#1A56DB] hover:bg-blue-700 active:scale-[0.98] text-white font-bold px-8 py-3.5 text-sm sm:text-base flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all group"
-                    >
-                      <span>Apply Now</span>
-                      <ArrowSquareOut size={18} weight="bold" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </a>
-
-                    {/* View Details Secondary Button */}
-                    <Link
-                      href={`/cards/${activeCard.slug}`}
-                      className="rounded-full border border-slate-300 hover:border-[#1A56DB] text-slate-700 hover:text-[#1A56DB] hover:bg-blue-50/50 active:scale-[0.98] font-semibold px-6 py-3.5 text-sm sm:text-base flex items-center gap-2 transition-all bg-white shadow-sm"
-                    >
-                      <span>View Card Details</span>
-                      <ArrowRight size={16} weight="bold" />
-                    </Link>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
-
-          {/* ======================================================== */}
-          {/* RIGHT COLUMN: 3D Visual with Orbital Ring & Badges */}
-          {/* ======================================================== */}
-          <div className="lg:col-span-5 relative flex items-center justify-center min-h-[420px] sm:min-h-[480px]">
-            
-            {/* 3D Smooth Ambient Fluid Wave in Background */}
-            <div className="absolute -top-10 -right-8 w-[420px] sm:w-[500px] h-[420px] sm:h-[500px] pointer-events-none -z-10 flex items-center justify-center opacity-85">
-              <svg viewBox="0 0 500 500" className="w-full h-full overflow-visible" fill="none">
-                <defs>
-                  <linearGradient id="fluidBlueGrad" x1="20%" y1="0%" x2="80%" y2="100%">
-                    <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.8" />
-                    <stop offset="45%" stopColor="#2563EB" stopOpacity="0.65" />
-                    <stop offset="85%" stopColor="#1E40AF" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.5" />
-                  </linearGradient>
-                  <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="30" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-                <path
-                  d="M 280 40 C 400 30, 480 120, 470 240 C 460 360, 360 460, 240 450 C 140 440, 200 320, 260 260 C 330 190, 180 80, 280 40 Z"
-                  fill="url(#fluidBlueGrad)"
-                  filter="url(#softGlow)"
-                  className="opacity-60"
-                />
-              </svg>
-            </div>
-
-            {/* Back Half of 3D Orbital Cyan Light Ring */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <svg viewBox="0 0 560 320" className="w-[125%] max-w-[620px] h-auto overflow-visible">
-                <defs>
-                  <linearGradient id="orbitCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#00F0FF" stopOpacity="0.2" />
-                    <stop offset="50%" stopColor="#38BDF8" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#0284C7" stopOpacity="0.3" />
-                  </linearGradient>
-                  <filter id="neonHalo" x="-40%" y="-40%" width="180%" height="180%">
-                    <feGaussianBlur stdDeviation="7" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                <ellipse
-                  cx="280"
-                  cy="165"
-                  rx="240"
-                  ry="72"
-                  transform="rotate(-18 280 165)"
-                  stroke="url(#orbitCyan)"
-                  strokeWidth="3.5"
-                  fill="none"
-                  filter="url(#neonHalo)"
-                  className="opacity-70"
-                />
-              </svg>
-            </div>
-
-            {/* 3D Stacked Floating Credit Cards */}
-            <div className="relative w-[310px] sm:w-[360px] h-[210px] sm:h-[240px] flex items-center justify-center z-10">
-              
-              {/* Card 3: Back Card (Bright Royal Blue) */}
-              <div
-                className="absolute w-[275px] sm:w-[325px] h-[168px] sm:h-[198px] rounded-2xl bg-gradient-to-br from-[#2563EB] via-[#1D4ED8] to-[#1E40AF] shadow-2xl border border-blue-300/30 overflow-hidden"
-                style={{
-                  transform: 'rotate(2deg) translate(28px, -22px)',
-                  transformOrigin: 'center center',
-                  boxShadow: '0 20px 40px -10px rgba(30, 64, 175, 0.35)',
-                }}
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none" />
-                <div className="p-4 flex flex-col justify-between h-full text-white/90">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold tracking-wider">PREMIUM REWARDS</span>
-                    <span className="text-[12px] font-black italic">VISA</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2: Middle Card (Rich Violet / Purple) */}
-              <div
-                className="absolute w-[280px] sm:w-[330px] h-[172px] sm:h-[202px] rounded-2xl bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#4C1D95] shadow-2xl border border-purple-400/30 overflow-hidden"
-                style={{
-                  transform: 'rotate(-5deg) translate(14px, -12px)',
-                  transformOrigin: 'center center',
-                  boxShadow: '0 25px 45px -10px rgba(109, 40, 217, 0.4)',
-                }}
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-purple-300/25 via-transparent to-transparent pointer-events-none" />
-                <div className="p-4 flex flex-col justify-between h-full text-white/90">
-                  <div className="flex justify-between items-center">
-                    <div className="w-7 h-5 rounded-sm bg-amber-400/80" />
-                    <span className="text-[12px] font-black italic">VISA</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 1: Front Card (Dynamic: Displays Brand card or Admin-selected Card Image) */}
-              <div
-                key={`front-card-${currentSlide}`}
-                className={`relative w-[295px] sm:w-[345px] h-[182px] sm:h-[212px] rounded-2xl shadow-2xl border border-blue-500/30 overflow-hidden group hover:scale-[1.02] transition-all duration-500 ${
-                  direction === 'next'
-                    ? 'animate-in fade-in slide-in-from-right-12 duration-500'
-                    : 'animate-in fade-in slide-in-from-left-12 duration-500'
-                }`}
-                style={{
-                  transform: 'rotate(-13deg) translate(-10px, 0px)',
-                  transformOrigin: 'center center',
-                  boxShadow: '0 30px 60px -15px rgba(2, 6, 23, 0.6), 0 0 35px rgba(56, 189, 248, 0.25)',
-                }}
-              >
-                {activeCard && activeCard.imageUrl ? (
-                  /* Admin-selected Card Real Image */
-                  <div className="relative w-full h-full bg-[#0F172A]">
-                    <Image
-                      src={activeCard.imageUrl}
-                      alt={activeCard.title}
-                      fill
-                      className="object-cover"
-                      sizes="350px"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                  </div>
-                ) : (
-                  /* Flagship Obsidian Credit-Mitra Card */
-                  <div className="w-full h-full bg-gradient-to-br from-[#0F172A] via-[#09101E] to-[#030712] p-5 flex flex-col justify-between text-white">
-                    {/* Surface Sheen */}
-                    <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-b from-white/10 via-transparent to-transparent rotate-45 pointer-events-none" />
-
-                    {/* Top Row: Gold EMV Chip & Contactless Waves */}
-                    <div className="flex items-center justify-between z-10">
-                      <div className="w-10 h-7 rounded bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-600/50 p-1 flex flex-col justify-between shadow-inner">
-                        <div className="w-full h-0.5 bg-amber-800/40" />
-                        <div className="w-full h-0.5 bg-amber-800/40" />
-                      </div>
-                      <div className="flex items-center text-white/80 pr-1">
-                        <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                          <path d="M8.5 16.5a5 5 0 0 1 0-9" />
-                          <path d="M12 19a8.5 8.5 0 0 0 0-14" />
-                          <path d="M15.5 21.5a12 12 0 0 0 0-19" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Center: Credit-Mitra Emblem + Typography */}
-                    <div className="z-10 flex flex-col items-center justify-center my-auto">
-                      <div className="flex items-center gap-2.5">
-                        <svg viewBox="0 0 36 36" className="w-9 h-9" fill="none">
-                          <defs>
-                            <linearGradient id="heroCardLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="0%" stopColor="#00F0FF" />
-                              <stop offset="50%" stopColor="#38BDF8" />
-                              <stop offset="100%" stopColor="#2563EB" />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            d="M 26 7 A 13 13 0 1 0 26 29 C 30 27 31 23 29 20 C 27 17 23 18 21 20 C 18 23 13 22 11 18 C 9 14 11 10 16 8 C 20 6 24 7 26 7 Z"
-                            fill="url(#heroCardLogoGrad)"
-                          />
-                        </svg>
-                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-md">
-                          Credit-Mitra
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Bottom Row */}
-                    <div className="flex items-end justify-between z-10 text-white/90">
-                      <span className="font-mono text-xs text-slate-400 tracking-widest">
-                        •••• 8820
-                      </span>
-                      <span className="text-sm font-black italic tracking-tighter text-white">
-                        VISA
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Front Arc of Glowing Cyan Orbital Ring */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-              <svg viewBox="0 0 560 320" className="w-[125%] max-w-[620px] h-auto overflow-visible">
-                <defs>
-                  <linearGradient id="orbitCyanFront" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="25%" stopColor="#00F0FF" stopOpacity="1" />
-                    <stop offset="65%" stopColor="#38BDF8" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.4" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M 80 190 C 120 270, 360 260, 480 150"
-                  stroke="url(#orbitCyanFront)"
-                  strokeWidth="3.5"
-                  fill="none"
-                  className="opacity-95"
-                  filter="drop-shadow(0 0 10px #00F0FF)"
-                />
-              </svg>
-            </div>
-
-            {/* Floating Badge 1: Top Left - "Earn Rewards" (2 Lines) */}
-            <div
-              className="absolute -top-1 left-0 sm:left-2 z-30 bg-white rounded-2xl px-4 py-2.5 shadow-xl border border-slate-100 flex items-center gap-3 hover:scale-105 transition-transform"
-            >
-              <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                <Gift size={18} weight="fill" />
-              </div>
-              <div className="text-left font-bold text-blue-600 text-xs sm:text-sm leading-tight">
-                <div>Earn</div>
-                <div>Rewards</div>
-              </div>
-            </div>
-
-            {/* Floating Badge 2: Top Right - "100% Secure & Trusted" (2 Lines) */}
-            <div
-              className="absolute top-4 right-0 sm:right-2 z-30 bg-white rounded-2xl px-4 py-2.5 shadow-xl border border-slate-100 flex items-center gap-3 hover:scale-105 transition-transform"
-            >
-              <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                <ShieldCheck size={20} weight="fill" />
-              </div>
-              <div className="text-left font-bold text-slate-800 text-xs sm:text-sm leading-tight">
-                <div>100% Secure</div>
-                <div>&amp; Trusted</div>
-              </div>
-            </div>
-
-            {/* Floating Badge 3: Bottom Right - "Get the Best Offers" (2 Lines) */}
-            <div
-              className="absolute bottom-4 right-0 sm:right-2 z-30 bg-white rounded-2xl px-4 py-2.5 shadow-xl border border-slate-100 flex items-center gap-3 hover:scale-105 transition-transform"
-            >
-              <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-base flex-shrink-0">
-                <CurrencyInr size={16} weight="bold" />
-              </div>
-              <div className="text-left font-bold text-slate-800 text-xs sm:text-sm leading-tight">
-                <div>Get the</div>
-                <div>Best Offers</div>
-              </div>
-            </div>
-
-          </div>
+            {/* Graceful parabolic ribbon swooping directly behind 3D cards towards bottom-right stamp */}
+            <path
+              d="M 720 -50 C 640 60, 560 180, 610 320 C 660 460, 800 520, 930 450 C 1070 380, 1120 220, 1020 120 C 910 20, 770 100, 810 260 C 850 420, 980 540, 1040 760"
+              stroke="url(#ribbonParabolicGrad)"
+              strokeWidth="76"
+              strokeLinecap="round"
+              filter="url(#ribbonGlowFilter)"
+              className="opacity-75"
+            />
+          </svg>
         </div>
 
         {/* ======================================================== */}
-        {/* AUTO-SLIDE CONTROLS (Slide Progress, Pause/Play, Arrows) */}
+        {/* TOP SECTION: Headline (Left) & 3D Stacked Cards (Right) */}
         {/* ======================================================== */}
-        {totalSlides > 1 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-4 border-t border-slate-200/50">
-            {/* Left: Animated Slide Indicators with Progress Bar */}
-            <div className="flex items-center gap-2 flex-wrap">
-              {Array.from({ length: totalSlides }).map((_, idx) => {
-                const isActive = currentSlide === idx;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => selectSlide(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                    className={`relative h-2.5 rounded-full overflow-hidden transition-all duration-300 ${
-                      isActive ? 'w-12 bg-blue-100' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                    }`}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[440px] sm:min-h-[480px]">
+          
+          {/* LEFT: 100% Secured + Headline + Get Started Now Button + Star */}
+          <div className="lg:col-span-6 space-y-6 text-left flex flex-col justify-center relative z-10">
+            {currentSlide === 0 ? (
+              /* SLIDE 0: EXACT REFERENCE FINTECH DESIGN */
+              <div className="space-y-6 animate-in fade-in duration-300">
+                {/* 100% SECURED Pill Badge (No Borders) */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[11px] font-bold tracking-widest text-[#0B0F17] uppercase shadow-sm">
+                  <span>100% SECURED</span>
+                </div>
+
+                {/* Main Headline matching reference typography */}
+                <h1 className="text-4xl sm:text-5xl lg:text-[62px] xl:text-[68px] font-black tracking-tight leading-[1.08] text-[#0B0F17]">
+                  Digital banking
+                  <br />
+                  made for{' '}
+                  {/* Colorful Soft Gradient Pill inside headline */}
+                  <span className="inline-flex items-center align-middle relative mx-2 w-24 sm:w-28 h-8 sm:h-11 rounded-full overflow-hidden shadow-sm bg-gradient-to-r from-[#38BDF8] via-[#F59E0B] to-[#EA580C] p-0.5">
+                    <span className="w-full h-full rounded-full bg-gradient-to-r from-[#38BDF8]/90 via-[#FB923C] to-[#F97316] blur-[2px]" />
+                  </span>
+                  <br />
+                  Digital works.
+                </h1>
+
+                {/* Black GET STARTED NOW Pill Button */}
+                <div className="pt-2">
+                  <Link
+                    href="/cards"
+                    className="inline-flex items-center justify-center rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold text-xs sm:text-sm tracking-widest px-8 sm:px-9 py-4 shadow-xl hover:shadow-2xl transition-all uppercase"
                   >
-                    {isActive && (
-                      <span
-                        key={`progress-${currentSlide}-${isAutoPlaying}`}
-                        className={`absolute inset-0 bg-[#1A56DB] rounded-full ${
-                          isAutoPlaying ? 'animate-progress-fill' : 'w-full'
-                        }`}
-                        style={{
-                          animationDuration: `${SLIDE_DURATION}ms`,
-                          animationTimingFunction: 'linear',
-                          animationFillMode: 'forwards',
-                          animationPlayState: isAutoPlaying && !isHovered ? 'running' : 'paused',
-                        }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
+                    <span>GET STARTED NOW</span>
+                  </Link>
+                </div>
+
+                {/* Black 4-Point Star Sparkle matching reference */}
+                <div className="pt-1">
+                  <svg viewBox="0 0 32 32" className="w-8 h-8 fill-[#0B0F17] drop-shadow-sm">
+                    <path d="M16 0 C16 9 23 16 32 16 C23 16 16 23 16 32 C16 23 9 16 0 16 C9 16 16 9 16 0 Z" />
+                  </svg>
+                </div>
+              </div>
+            ) : activeCard ? (
+              /* SLIDE 1..N: ADMIN FEATURED PRODUCT SLIDE */
+              <div className="space-y-5 animate-in fade-in duration-300">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FDE4CE] text-[#9A3412] text-xs sm:text-sm font-bold shadow-sm">
+                    <Sparkle size={15} weight="fill" className="text-[#9A3412] flex-shrink-0" />
+                    <span>{activeCard.heroTag || '⚡ Featured Card'}</span>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white text-slate-800 shadow-sm">
+                    {activeCard.bankName}
+                  </span>
+                </div>
+
+                <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-black tracking-tight leading-[1.12] text-[#0B0F17]">
+                  {activeCard.title}
+                </h2>
+
+                <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                  Joining Fee: {formatCurrency(activeCard.joiningFee)} • Annual Fee: {formatCurrency(activeCard.annualFee)}
+                </p>
+
+                <div className="p-4 sm:p-5 rounded-2xl bg-white shadow-xl shadow-black/[0.03] space-y-2 max-w-xl">
+                  {(activeCard.heroSpecialFeatures && activeCard.heroSpecialFeatures.length > 0
+                    ? activeCard.heroSpecialFeatures
+                    : activeCard.benefits.slice(0, 3)
+                  ).map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
+                      <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check size={11} weight="bold" />
+                      </div>
+                      <span className="leading-snug">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <a
+                    href={`${API_BASE_URL}/go/${activeCard.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold px-8 py-3.5 text-xs sm:text-sm tracking-wider uppercase shadow-xl transition-all inline-flex items-center gap-2"
+                  >
+                    <span>Apply Now</span>
+                    <ArrowSquareOut size={16} weight="bold" />
+                  </a>
+                  <Link
+                    href={`/cards/${activeCard.slug}`}
+                    className="rounded-full bg-white hover:bg-[#F5F2EB] text-[#0B0F17] px-6 py-3.5 text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          {/* RIGHT: 3D Stacked Credit Cards */}
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[420px] sm:min-h-[480px] z-10">
+            <div className="relative w-[320px] sm:w-[380px] md:w-[420px] h-[240px] sm:h-[270px] flex items-center justify-center">
               
-              <span className="text-xs font-semibold text-slate-500 ml-2">
-                Slide {currentSlide + 1} of {totalSlides}:{' '}
-                <span className="font-bold text-slate-700">
-                  {activeCard ? activeCard.title : 'Platform Overview'}
-                </span>
-              </span>
-            </div>
+              {/* BACK CARD: Crimson Red (No Border) */}
+              <div
+                className="absolute w-[290px] sm:w-[340px] md:w-[370px] h-[180px] sm:h-[210px] md:h-[225px] rounded-2xl bg-gradient-to-br from-[#E11D48] via-[#BE123C] to-[#4C0519] overflow-hidden text-white/95 p-4 flex flex-col justify-between"
+                style={{
+                  transform: 'rotate(-16deg) translate(-22px, -18px)',
+                  transformOrigin: 'center center',
+                  boxShadow: '0 25px 45px -10px rgba(76, 5, 25, 0.45)',
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-transparent pointer-events-none" />
 
-            {/* Right: Auto-play Toggle & Navigation Buttons */}
-            <div className="flex items-center gap-2">
-              {/* Play/Pause Auto-Slide Toggle */}
-              <button
-                type="button"
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                aria-label={isAutoPlaying ? 'Pause auto-slide' : 'Resume auto-slide'}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:text-[#1A56DB] hover:bg-blue-50/50 shadow-sm transition-all"
-              >
-                {isAutoPlaying ? (
-                  <>
-                    <Pause size={13} weight="fill" className="text-blue-600" />
-                    <span>{isHovered ? 'Hover Paused' : 'Auto-sliding'}</span>
-                  </>
-                ) : (
-                  <>
-                    <Play size={13} weight="fill" className="text-slate-500" />
-                    <span>Paused</span>
-                  </>
-                )}
-              </button>
+                <div className="flex justify-between items-center z-10">
+                  <span className="text-[10px] font-bold tracking-wider text-rose-200">WORLD ELITE</span>
+                </div>
 
-              {/* Prev / Next Arrows */}
-              <button
-                type="button"
-                onClick={goToPrevSlide}
-                aria-label="Previous slide"
-                className="w-9 h-9 rounded-full bg-white hover:bg-blue-50 text-slate-700 hover:text-[#1A56DB] border border-slate-200 shadow-sm flex items-center justify-center transition-all active:scale-95"
+                <div className="flex justify-between items-end z-10">
+                  <span className="text-[10px] font-mono tracking-widest text-rose-200">KARTIK BANSAL</span>
+                  <div className="flex items-center -space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-[#EB001B] opacity-90 shadow-sm" />
+                    <div className="w-6 h-6 rounded-full bg-[#F79E1B] opacity-90 shadow-sm" />
+                  </div>
+                </div>
+              </div>
+
+              {/* FRONT CARD: Aurora Gradient Mesh (No Border) */}
+              <div
+                className="relative w-[305px] sm:w-[355px] md:w-[385px] h-[190px] sm:h-[220px] md:h-[235px] rounded-2xl overflow-hidden p-5 flex flex-col justify-between text-white group/front hover:scale-105 transition-all duration-500"
+                style={{
+                  transform: 'rotate(-4deg) translate(8px, 6px)',
+                  transformOrigin: 'center center',
+                  background:
+                    'radial-gradient(circle at 10% 20%, #6366F1 0%, transparent 45%), radial-gradient(circle at 90% 15%, #38BDF8 0%, transparent 55%), radial-gradient(circle at 85% 85%, #34D399 0%, transparent 45%), radial-gradient(circle at 20% 90%, #A855F7 0%, transparent 50%), linear-gradient(135deg, #2563EB 0%, #1D4ED8 50%, #0284C7 100%)',
+                  boxShadow:
+                    '0 30px 60px -15px rgba(37, 99, 235, 0.45), 0 20px 35px -10px rgba(0, 0, 0, 0.28)',
+                }}
               >
-                <CaretLeft size={16} weight="bold" />
-              </button>
-              <button
-                type="button"
-                onClick={goToNextSlide}
-                aria-label="Next slide"
-                className="w-9 h-9 rounded-full bg-white hover:bg-blue-50 text-slate-700 hover:text-[#1A56DB] border border-slate-200 shadow-sm flex items-center justify-center transition-all active:scale-95"
-              >
-                <CaretRight size={16} weight="bold" />
-              </button>
+                <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-b from-white/20 via-transparent to-transparent rotate-45 pointer-events-none" />
+
+                {/* Top Row: VISA Wordmark + Waves */}
+                <div className="flex items-center justify-between z-10">
+                  <span className="text-xl sm:text-2xl font-black italic tracking-tighter text-white drop-shadow-md">
+                    VISA
+                  </span>
+                  <div className="flex items-center text-white/90 pr-1">
+                    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                      <path d="M8.5 16.5a5 5 0 0 1 0-9" />
+                      <path d="M12 19a8.5 8.5 0 0 0 0-14" />
+                      <path d="M15.5 21.5a12 12 0 0 0 0-19" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Middle Row: Spaced Card Number */}
+                <div className="z-10 my-auto text-center sm:text-left">
+                  <span className="font-mono text-sm sm:text-base md:text-lg font-bold tracking-[0.2em] text-white/95 drop-shadow">
+                    1234  5678  9000  0000
+                  </span>
+                </div>
+
+                {/* Bottom Row: Name + Expiry + Circles */}
+                <div className="flex items-end justify-between z-10">
+                  <div className="flex items-center gap-3 text-white/95">
+                    <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase">
+                      KARTIK BANSAL
+                    </span>
+                    <span className="text-[10px] sm:text-xs font-medium text-white/80">
+                      05 / 24
+                    </span>
+                  </div>
+
+                  <div className="flex items-center -space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-white opacity-95 shadow-sm" />
+                    <div className="w-6 h-6 rounded-full bg-white/50 shadow-sm" />
+                  </div>
+                </div>
+              </div>
+
             </div>
+          </div>
+
+        </div>
+
+        {/* ======================================================== */}
+        {/* BOTTOM ROW: Manifesto (Left) + 232K+ Box (Center) + Rotating Stamp (Right) */}
+        {/* NO BORDERS, NO HORIZONTAL LINE: Matches reference image completely */}
+        {/* ======================================================== */}
+        <div className="mt-8 sm:mt-12 pt-4 grid grid-cols-1 md:grid-cols-12 gap-8 items-end relative z-10">
+          
+          {/* Left: Manifesto Copy */}
+          <div className="md:col-span-5 max-w-sm space-y-3">
+            <div className="w-12 h-[3px] bg-[#0B0F17] rounded-full" />
+            <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              Money should be easy. It&apos;s time to say goodbye to banks &amp; financial services companies that don&apos;t work for you.
+            </p>
+          </div>
+
+          {/* Center: "232K+ Customers" Biscuit Box */}
+          <div className="md:col-span-4 flex justify-start md:justify-center">
+            <div className="rounded-3xl bg-[#FDE4CE] p-6 sm:p-7 shadow-xl shadow-orange-950/[0.04] space-y-3 w-full sm:w-auto min-w-[240px]">
+              <div>
+                <span className="text-3xl sm:text-4xl font-black text-[#0B0F17]">232</span>
+                <span className="text-3xl sm:text-4xl font-black text-[#1A56DB]">K+</span>
+                <p className="text-sm sm:text-base font-bold text-slate-800 mt-0.5">Customers</p>
+              </div>
+
+              {/* Overlapping Avatars */}
+              <div className="flex items-center -space-x-2.5 pt-1">
+                <div className="w-9 h-9 rounded-full ring-2 ring-white overflow-hidden bg-slate-300 relative shadow-sm">
+                  <Image
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80"
+                    alt="Customer 1"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-9 h-9 rounded-full ring-2 ring-white overflow-hidden bg-slate-400 relative shadow-sm">
+                  <Image
+                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&h=120&q=80"
+                    alt="Customer 2"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-9 h-9 rounded-full ring-2 ring-white overflow-hidden bg-slate-500 relative shadow-sm">
+                  <Image
+                    src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&h=120&q=80"
+                    alt="Customer 3"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="w-9 h-9 rounded-full ring-2 ring-white overflow-hidden bg-slate-600 relative shadow-sm">
+                  <Image
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80"
+                    alt="Customer 4"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Circular Rotating Stamp */}
+          <div className="md:col-span-3 flex justify-start md:justify-end items-center">
+            <Link
+              href="/cards"
+              aria-label="Get Started Now"
+              className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center group/stamp cursor-pointer transition-transform hover:scale-105 active:scale-95"
+            >
+              {/* Rotating Circular Text SVG */}
+              <svg viewBox="0 0 120 120" className="w-28 h-28 sm:w-32 sm:h-32 animate-spin-slow">
+                <defs>
+                  <path
+                    id="circlePathHero"
+                    d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"
+                  />
+                </defs>
+                <text className="text-[10.5px] font-black uppercase tracking-[0.24em] fill-[#0B0F17]">
+                  <textPath href="#circlePathHero" startOffset="0%">
+                    • GET STARTED NOW • GET STARTED NOW
+                  </textPath>
+                </text>
+              </svg>
+
+              {/* Center Clean Arrow */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <ArrowRight size={22} weight="bold" className="text-[#0B0F17] group-hover/stamp:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+        </div>
+
+        {/* Carousel slide controls (clean & subtle on top-right if extra slides exist) */}
+        {totalSlides > 1 && (
+          <div className="absolute top-0 right-4 sm:right-6 flex items-center gap-2 opacity-0 group-hover/hero:opacity-100 transition-opacity duration-300">
+            <button
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides)}
+              aria-label="Previous slide"
+              className="w-7 h-7 rounded-full bg-white hover:bg-slate-100 shadow-md flex items-center justify-center text-slate-700 transition-all"
+            >
+              <CaretLeft size={13} weight="bold" />
+            </button>
+            <span className="text-[11px] font-bold text-slate-600 bg-white/80 px-2 py-0.5 rounded-full shadow-xs">
+              {currentSlide + 1}/{totalSlides}
+            </span>
+            <button
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % totalSlides)}
+              aria-label="Next slide"
+              className="w-7 h-7 rounded-full bg-white hover:bg-slate-100 shadow-md flex items-center justify-center text-slate-700 transition-all"
+            >
+              <CaretRight size={13} weight="bold" />
+            </button>
           </div>
         )}
-      </div>
 
-      {/* Video Modal Explainer */}
-      {videoModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100">
-            <button
-              onClick={() => setVideoModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-              aria-label="Close video modal"
-            >
-              <X size={20} weight="bold" />
-            </button>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
-                  <Play size={14} weight="fill" />
-                </div>
-                <h3 className="text-xl font-bold text-[#0F172A]">
-                  Welcome to Credit-Mitra
-                </h3>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Watch how Credit-Mitra helps you discover, compare, and apply for the right credit card and financial products with 100% verified bank direct portals and transparent terms.
-              </p>
-              <div className="aspect-video w-full rounded-2xl bg-slate-900 flex flex-col items-center justify-center text-white p-6 text-center space-y-3">
-                <div className="w-16 h-16 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg">
-                  <Play size={28} weight="fill" className="ml-1" />
-                </div>
-                <div>
-                  <p className="font-semibold text-base">Credit-Mitra Platform Overview</p>
-                  <p className="text-xs text-slate-400">Discover transparent credit guidance in under 2 minutes</p>
-                </div>
-              </div>
-              <div className="flex justify-end pt-2">
-                <Link
-                  href="/cards"
-                  onClick={() => setVideoModalOpen(false)}
-                  className="rounded-full bg-blue-600 text-white font-semibold text-sm px-6 py-2.5 hover:bg-blue-700 transition-colors"
-                >
-                  Explore Cards Now
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </section>
   );
 }

@@ -28,7 +28,7 @@ export default function PopularProducts() {
       badge: {
         text: 'Up to 5X Rewards',
         icon: <Gift size={13} weight="fill" className="text-blue-600" />,
-        colorClass: 'bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE]',
+        colorClass: 'bg-[#EFF6FF] text-[#1E40AF]',
       },
       bankLogo: <HdfcBankLogo />,
       mockupType: 'hdfc-millennia',
@@ -41,7 +41,7 @@ export default function PopularProducts() {
       badge: {
         text: 'Lifetime Free',
         icon: <Gift size={13} weight="fill" className="text-blue-600" />,
-        colorClass: 'bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE]',
+        colorClass: 'bg-[#EFF6FF] text-[#1E40AF]',
       },
       bankLogo: <SbiCardLogo />,
       mockupType: 'sbi-simplysave',
@@ -54,7 +54,7 @@ export default function PopularProducts() {
       badge: {
         text: '5% Cashback',
         icon: <Tag size={13} weight="fill" className="text-amber-600" />,
-        colorClass: 'bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A]',
+        colorClass: 'bg-[#FEF3C7] text-[#92400E]',
       },
       bankLogo: <IciciBankLogo />,
       mockupType: 'amazon-pay-icici',
@@ -67,7 +67,7 @@ export default function PopularProducts() {
       badge: {
         text: '10X Rewards',
         icon: <ShoppingCart size={13} weight="fill" className="text-blue-600" />,
-        colorClass: 'bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE]',
+        colorClass: 'bg-[#EFF6FF] text-[#1E40AF]',
       },
       bankLogo: <AxisBankLogo />,
       mockupType: 'axis-flipkart',
@@ -75,47 +75,47 @@ export default function PopularProducts() {
   ];
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14">
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 md:pt-4">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-7 gap-3">
         <div>
-          {/* Subtitle Dash + Text */}
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="w-5 h-0.5 bg-[#1E40AF] rounded-full" />
-            <span className="text-xs sm:text-sm font-bold text-slate-800 tracking-wide">
+          {/* Subtitle Dash + Text matching Heybank style */}
+          <div className="flex items-center gap-2.5 mb-2">
+            <span className="w-8 h-0.5 bg-[#0B0F17] rounded-full" />
+            <span className="text-xs sm:text-sm font-extrabold text-[#0B0F17] tracking-wider uppercase">
               Popular Products
             </span>
           </div>
           {/* Main Title */}
-          <h2 className="text-2xl sm:text-[28px] font-extrabold text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-[32px] font-black text-[#0B0F17] tracking-tight">
             Find the Right Card for You
           </h2>
         </div>
 
-        {/* View All Link */}
+        {/* View All Link with Black Accent */}
         <Link
           href="/cards"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1A56DB] hover:text-blue-700 transition-colors group self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0B0F17] hover:text-[#1A56DB] transition-colors group self-start sm:self-auto"
         >
           <span>View All Cards</span>
-          <ArrowRight size={15} weight="bold" className="group-hover:translate-x-0.5 transition-transform" />
+          <ArrowRight size={15} weight="bold" className="group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 
-      {/* 4 Cards Grid matching image */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      {/* 4 Cards Grid - NO BORDERS, Elevated Surfaces with Soft Shadows */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {cards.map((card) => (
           <div
             key={card.id}
-            className="group relative bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 flex flex-col justify-between"
+            className="group relative bg-white rounded-3xl p-5 sm:p-6 shadow-xl shadow-black/[0.03] hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between"
           >
             {/* Top Bank Logo */}
-            <div className="mb-3.5 flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-between">
               {card.bankLogo}
             </div>
 
             {/* Middle: Mini Card Preview + Details */}
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3.5 mb-5">
               {/* Realistic Mini Card Mockup */}
               <MiniCardMockup type={card.mockupType} />
 
@@ -123,29 +123,29 @@ export default function PopularProducts() {
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/cards/${card.slug}`}
-                  className="font-bold text-[13.5px] sm:text-[14px] text-[#0F172A] group-hover:text-blue-600 transition-colors line-clamp-1 block leading-snug"
+                  className="font-bold text-[14px] text-[#0B0F17] group-hover:text-[#1A56DB] transition-colors line-clamp-1 block leading-snug"
                 >
                   {card.title}
                 </Link>
-                <p className="text-[11.5px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                <p className="text-[12px] text-slate-500 mt-1 line-clamp-2 leading-relaxed font-normal">
                   {card.subtitle}
                 </p>
               </div>
             </div>
 
-            {/* Bottom Row: Highlight Badge & Circular Blue Arrow Button */}
+            {/* Bottom Row: Highlight Badge & Circular Black Arrow Button */}
             <div className="flex items-center justify-between pt-1">
-              {/* Badge Pill */}
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${card.badge.colorClass}`}>
+              {/* Badge Pill (NO BORDERS) */}
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold ${card.badge.colorClass}`}>
                 {card.badge.icon}
                 <span>{card.badge.text}</span>
               </span>
 
-              {/* Blue Circular Arrow Button */}
+              {/* Black Circular Arrow Button matching Hero */}
               <Link
                 href={`/cards/${card.slug}`}
                 aria-label={`View ${card.title} details`}
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1A56DB] hover:bg-blue-700 text-white flex items-center justify-center shadow-sm shadow-blue-500/20 group-hover:scale-110 active:scale-95 transition-all flex-shrink-0"
+                className="w-8 h-8 rounded-full bg-[#0B0F17] hover:bg-black text-white flex items-center justify-center shadow-md group-hover:scale-110 active:scale-95 transition-all flex-shrink-0"
               >
                 <ArrowRight size={13} weight="bold" />
               </Link>

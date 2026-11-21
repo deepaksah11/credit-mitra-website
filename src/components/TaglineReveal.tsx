@@ -53,17 +53,17 @@ export default function TaglineReveal({
         className="max-w-[680px] mx-auto text-center"
         aria-label={phrase}
       >
-        <span className="text-xs font-semibold uppercase tracking-wider text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full inline-block mb-4">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/70 border border-blue-200 text-[#1A56DB] text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
           Core Commitment
         </span>
-        <h2 className="heading-3 md:heading-2 font-semibold tracking-tight text-neutral-900 leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0F172A] leading-snug">
           {words.map((word, index) => {
             const isActive = index <= activeWordIndex;
             return (
               <span
                 key={index}
                 className={`inline-block mr-2 transition-colors duration-500 ease-brand-base ${
-                  isActive ? 'text-neutral-900' : 'text-neutral-300'
+                  isActive ? 'text-[#0F172A]' : 'text-slate-300'
                 }`}
               >
                 {word}

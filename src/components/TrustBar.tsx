@@ -22,24 +22,23 @@ export default function TrustBar() {
     },
     {
       icon: <Headset size={20} weight="fill" className="text-[#1A56DB]" />,
-      text: 'Expert Support',
+      text: 'Expert Guidance',
     },
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-4 relative z-20">
-      <div className="bg-[#F0F5FE] border border-[#E2EEFC] rounded-2xl md:rounded-full py-4 px-6 sm:px-12 shadow-sm">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 items-center justify-items-center">
-          {items.map((item, index) => (
-            <React.Fragment key={item.text}>
-              <div className="flex items-center gap-2.5 text-slate-800 font-semibold text-xs sm:text-sm">
-                {item.icon}
-                <span className="tracking-tight whitespace-nowrap">{item.text}</span>
-              </div>
-              {index < items.length - 1 && (
-                <div className="hidden md:block h-5 w-px bg-[#CBDCF7]" aria-hidden="true" />
-              )}
-            </React.Fragment>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+      {/* Floating Borderless Pill Card with Soft Shadow */}
+      <div className="bg-white/95 backdrop-blur-xl rounded-2xl md:rounded-full py-4 sm:py-5 px-6 sm:px-12 shadow-xl shadow-black/[0.04]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-center justify-items-center">
+          {items.map((item) => (
+            <div
+              key={item.text}
+              className="flex items-center gap-2.5 text-slate-800 font-bold text-xs sm:text-sm"
+            >
+              {item.icon}
+              <span className="tracking-tight whitespace-nowrap">{item.text}</span>
+            </div>
           ))}
         </div>
       </div>

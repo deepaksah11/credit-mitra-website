@@ -183,7 +183,7 @@ export default function NewCardPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. HDFC Regalia Gold Credit Card"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -196,7 +196,7 @@ export default function NewCardPage() {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 placeholder="auto-generated-from-title"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -207,7 +207,7 @@ export default function NewCardPage() {
               <select
                 value={bankName}
                 onChange={(e) => setBankName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               >
                 <option value="HDFC Bank">HDFC Bank</option>
                 <option value="SBI Card">SBI Card</option>
@@ -226,7 +226,7 @@ export default function NewCardPage() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               >
                 <option value="Cashback">Cashback</option>
                 <option value="Lifetime Free">Lifetime Free</option>
@@ -249,10 +249,10 @@ export default function NewCardPage() {
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
                   onChange={handleFileChange}
-                  className="w-full text-xs text-neutral-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-teal-800 file:text-white hover:file:bg-teal-900 cursor-pointer"
+                  className="w-full text-xs text-neutral-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-#1A56DB file:text-white hover:file:bg-blue-700 cursor-pointer"
                 />
                 {uploadingImage && (
-                  <p className="caption-4 text-teal-800 mt-1">Uploading to Cloudinary CDN...</p>
+                  <p className="caption-4 text-#1A56DB mt-1">Uploading to Cloudinary CDN...</p>
                 )}
                 {imageUrl && (
                   <p className="caption-5 text-emerald-700 mt-1 font-mono line-clamp-1">
@@ -271,7 +271,7 @@ export default function NewCardPage() {
                     setImagePreview(e.target.value);
                   }}
                   placeholder="Or paste direct image URL (https://...)"
-                  className="w-full px-3.5 py-2 rounded-xl border border-neutral-200 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                  className="w-full px-3.5 py-2 rounded-xl border border-neutral-200 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
                 />
               </div>
 
@@ -302,7 +302,7 @@ export default function NewCardPage() {
                 min="0"
                 value={joiningFee}
                 onChange={(e) => setJoiningFee(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -315,7 +315,7 @@ export default function NewCardPage() {
                 min="0"
                 value={annualFee}
                 onChange={(e) => setAnnualFee(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -328,7 +328,7 @@ export default function NewCardPage() {
                 value={feeWaiver}
                 onChange={(e) => setFeeWaiver(e.target.value)}
                 placeholder="e.g. Waived on spend of ₹2,00,000/year"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
           </div>
@@ -344,7 +344,7 @@ export default function NewCardPage() {
               value={referralUrl}
               onChange={(e) => setReferralUrl(e.target.value)}
               placeholder="https://applyonline.bank.com/cards?source=creditmitra"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
             />
           </div>
 
@@ -357,7 +357,7 @@ export default function NewCardPage() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd(setBenefits)}
-                className="caption-4 font-semibold text-teal-800 hover:underline flex items-center gap-1"
+                className="caption-4 font-semibold text-#1A56DB hover:underline flex items-center gap-1"
               >
                 <Plus size={14} /> Add Perk
               </button>
@@ -369,7 +369,7 @@ export default function NewCardPage() {
                   value={b}
                   onChange={(e) => handleArrayChange(setBenefits, i, e.target.value)}
                   placeholder="Benefit point..."
-                  className="flex-1 px-3 py-2 rounded-xl border border-neutral-200 text-xs focus:outline-none focus:ring-2 focus:ring-teal-700"
+                  className="flex-1 px-3 py-2 rounded-xl border border-neutral-200 text-xs focus:outline-none focus:ring-2 focus:ring-#1A56DB"
                 />
                 {benefits.length > 1 && (
                   <button
@@ -388,11 +388,11 @@ export default function NewCardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="caption-3 font-semibold text-teal-800">Pros</label>
+                <label className="caption-3 font-semibold text-#1A56DB">Pros</label>
                 <button
                   type="button"
                   onClick={() => handleArrayAdd(setPros)}
-                  className="caption-4 font-semibold text-teal-800 hover:underline flex items-center gap-1"
+                  className="caption-4 font-semibold text-#1A56DB hover:underline flex items-center gap-1"
                 >
                   <Plus size={14} /> Add Pro
                 </button>
@@ -550,7 +550,7 @@ export default function NewCardPage() {
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 text-teal-800 rounded focus:ring-teal-700"
+                className="w-4 h-4 text-#1A56DB rounded focus:ring-#1A56DB"
               />
               <span>Card Active & Visible on Website</span>
             </label>
@@ -560,7 +560,7 @@ export default function NewCardPage() {
                 type="checkbox"
                 checked={isFeatured}
                 onChange={(e) => setIsFeatured(e.target.checked)}
-                className="w-4 h-4 text-teal-800 rounded focus:ring-teal-700"
+                className="w-4 h-4 text-#1A56DB rounded focus:ring-#1A56DB"
               />
               <span>Feature at Top of Homepage</span>
             </label>
@@ -577,7 +577,7 @@ export default function NewCardPage() {
             <button
               type="submit"
               disabled={loading || uploadingImage}
-              className="button-md rounded-xl bg-teal-800 text-white font-semibold hover:bg-teal-900 active:scale-[0.98] transition-all disabled:opacity-50"
+              className="button-md rounded-xl bg-#1A56DB text-white font-semibold hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50"
             >
               {loading ? 'Creating Card...' : 'Save & Publish Card'}
             </button>

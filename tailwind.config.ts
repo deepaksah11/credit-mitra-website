@@ -24,8 +24,13 @@ const config: Config = {
           accent: '#131209',
         },
         brand: {
-          primary: '#0F766E', // Refined teal/emerald for trust & financial security
-          primaryHover: '#115E59',
+          primary: '#1A56DB', // Hero Electric/Royal Blue
+          primaryHover: '#1E40AF',
+          accent: '#00F0FF',
+          navy: '#0A192F',
+          darkSlate: '#0F172A',
+          lightBlue: '#F0F5FE',
+          lightBorder: '#E2EEFC',
           lightBg: '#F8FAFC',
           border: '#E2E8F0',
         },

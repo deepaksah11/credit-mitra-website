@@ -3,14 +3,22 @@
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import {
+  Sparkle,
+  Gift,
+  AirplaneTilt,
+  ShoppingCart,
+  Percent,
+  Cards,
+} from '@phosphor-icons/react';
 
 const CATEGORIES = [
-  { label: 'All Cards', value: '' },
-  { label: 'Cashback', value: 'Cashback' },
-  { label: 'Lifetime Free', value: 'Lifetime Free' },
-  { label: 'Travel & Lounge', value: 'Travel' },
-  { label: 'Online Shopping', value: 'Shopping' },
-  { label: 'Rewards', value: 'Rewards' },
+  { label: 'All Cards', value: '', icon: Cards },
+  { label: 'Cashback', value: 'Cashback', icon: Percent },
+  { label: 'Lifetime Free', value: 'Lifetime Free', icon: Gift },
+  { label: 'Travel & Lounge', value: 'Travel', icon: AirplaneTilt },
+  { label: 'Online Shopping', value: 'Shopping', icon: ShoppingCart },
+  { label: 'Rewards', value: 'Rewards', icon: Sparkle },
 ];
 
 function CategoryPillsContent() {
@@ -18,22 +26,28 @@ function CategoryPillsContent() {
   const currentCategory = searchParams.get('category') || '';
 
   return (
-    <div className="flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
+    <div className="flex items-center gap-2.5 overflow-x-auto py-3 no-scrollbar scroll-smooth">
       {CATEGORIES.map((cat) => {
         const isActive = currentCategory.toLowerCase() === cat.value.toLowerCase();
         const href = cat.value ? `/cards?category=${encodeURIComponent(cat.value)}` : '/cards';
+        const IconComponent = cat.icon;
 
         return (
           <Link
             key={cat.label}
             href={href}
-            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+            className={`inline-flex items-center gap-2 whitespace-nowrap px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 active:scale-95 ${
               isActive
-                ? 'bg-teal-800 text-white shadow-sm'
-                : 'bg-white text-neutral-600 border border-neutral-200/80 hover:border-neutral-300 hover:text-neutral-900'
+                ? 'bg-[#0B0F17] text-white shadow-xl shadow-black/25'
+                : 'bg-white text-slate-800 shadow-md shadow-black/[0.03] hover:shadow-lg hover:text-black hover:bg-slate-50'
             }`}
           >
-            {cat.label}
+            <IconComponent
+              size={15}
+              weight={isActive ? 'fill' : 'bold'}
+              className={isActive ? 'text-white' : 'text-slate-500'}
+            />
+            <span>{cat.label}</span>
           </Link>
         );
       })}
@@ -45,13 +59,13 @@ export default function CategoryPills() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center gap-2 overflow-x-auto py-2">
+        <div className="flex items-center gap-2.5 overflow-x-auto py-3">
           {CATEGORIES.map((cat) => (
             <div
               key={cat.label}
-              className="px-3.5 py-1.5 rounded-full text-xs bg-neutral-100 text-neutral-400"
+              className="px-4 py-2 rounded-full text-xs sm:text-sm bg-white text-slate-400 shadow-sm flex items-center gap-1.5"
             >
-              {cat.label}
+              <span>{cat.label}</span>
             </div>
           ))}
         </div>

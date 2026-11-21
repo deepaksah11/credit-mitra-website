@@ -8,10 +8,10 @@ interface MiniCardMockupProps {
 export default function MiniCardMockup({ type, className = '' }: MiniCardMockupProps) {
   if (type === 'hdfc-millennia') {
     return (
-      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-br from-[#0B1A30] via-[#09152B] to-[#040914] p-1.5 flex flex-col justify-between border border-blue-900/30 select-none ${className}`}>
+      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-[#0B1A30] via-[#09152B] to-[#040914] p-1.5 flex flex-col justify-between select-none ${className}`}>
         {/* Top: EMV Chip & HDFC logo */}
         <div className="flex items-center justify-between z-10">
-          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-600/40 shadow-inner" />
+          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner" />
           <span className="text-[6.5px] font-bold text-slate-300 tracking-wider">HDFC BANK</span>
         </div>
 
@@ -35,13 +35,13 @@ export default function MiniCardMockup({ type, className = '' }: MiniCardMockupP
 
   if (type === 'sbi-simplysave') {
     return (
-      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-br from-[#02315D] via-[#081E36] to-[#011124] p-1.5 flex flex-col justify-between border border-cyan-900/30 select-none ${className}`}>
-        {/* Background wave ripple texture */}
-        <div className="absolute -right-4 -bottom-4 w-16 h-16 rounded-full border border-cyan-400/20 pointer-events-none" />
+      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-[#02315D] via-[#081E36] to-[#011124] p-1.5 flex flex-col justify-between select-none ${className}`}>
+        {/* Background wave ripple texture without borders */}
+        <div className="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-cyan-400/10 pointer-events-none" />
 
         {/* Top: EMV Chip & SBI Card */}
         <div className="flex items-center justify-between z-10">
-          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-600/40 shadow-inner" />
+          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner" />
           <div className="flex items-center gap-0.5">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
             <span className="text-[7px] font-bold text-white tracking-tight">SBI Card</span>
@@ -68,10 +68,10 @@ export default function MiniCardMockup({ type, className = '' }: MiniCardMockupP
 
   if (type === 'amazon-pay-icici') {
     return (
-      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-br from-[#1C1C1F] via-[#111113] to-[#0A0A0C] p-1.5 flex flex-col justify-between border border-neutral-700/40 select-none ${className}`}>
+      <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-[#1C1C1F] via-[#111113] to-[#0A0A0C] p-1.5 flex flex-col justify-between select-none ${className}`}>
         {/* Top: Chip & ICICI */}
         <div className="flex items-center justify-between z-10">
-          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-600/40 shadow-inner" />
+          <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner" />
           <span className="text-[6.5px] font-bold text-neutral-300">i ICICI Bank</span>
         </div>
 
@@ -102,10 +102,10 @@ export default function MiniCardMockup({ type, className = '' }: MiniCardMockupP
 
   // axis-flipkart
   return (
-    <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-sm flex-shrink-0 bg-gradient-to-br from-[#1055C9] via-[#0B3E94] to-[#052357] p-1.5 flex flex-col justify-between border border-blue-500/30 select-none ${className}`}>
+    <div className={`relative w-[96px] h-[62px] sm:w-[104px] sm:h-[66px] rounded-lg overflow-hidden shadow-md flex-shrink-0 bg-gradient-to-br from-[#1055C9] via-[#0B3E94] to-[#052357] p-1.5 flex flex-col justify-between select-none ${className}`}>
       {/* Top: Chip & Axis Bank */}
       <div className="flex items-center justify-between z-10">
-        <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-600/40 shadow-inner" />
+        <div className="w-4 h-3 rounded-[2px] bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner" />
         <span className="text-[6.5px] font-bold text-white/90">AXIS BANK</span>
       </div>
 

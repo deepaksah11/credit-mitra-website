@@ -209,7 +209,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -221,7 +221,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 type="text"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -232,7 +232,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
               <select
                 value={bankName}
                 onChange={(e) => setBankName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               >
                 <option value="HDFC Bank">HDFC Bank</option>
                 <option value="SBI Card">SBI Card</option>
@@ -251,7 +251,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               >
                 <option value="Cashback">Cashback</option>
                 <option value="Lifetime Free">Lifetime Free</option>
@@ -273,10 +273,10 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
                   onChange={handleFileChange}
-                  className="w-full text-xs text-neutral-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-teal-800 file:text-white hover:file:bg-teal-900 cursor-pointer"
+                  className="w-full text-xs text-neutral-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-#1A56DB file:text-white hover:file:bg-blue-700 cursor-pointer"
                 />
                 {uploadingImage && (
-                  <p className="caption-4 text-teal-800 mt-1">Uploading replacement to Cloudinary...</p>
+                  <p className="caption-4 text-#1A56DB mt-1">Uploading replacement to Cloudinary...</p>
                 )}
               </div>
 
@@ -289,7 +289,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                     setImagePreview(e.target.value);
                   }}
                   placeholder="Or direct image URL"
-                  className="w-full px-3.5 py-2 rounded-xl border border-neutral-200 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-700"
+                  className="w-full px-3.5 py-2 rounded-xl border border-neutral-200 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-#1A56DB"
                 />
               </div>
 
@@ -321,7 +321,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 min="0"
                 value={joiningFee}
                 onChange={(e) => setJoiningFee(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -334,7 +334,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 min="0"
                 value={annualFee}
                 onChange={(e) => setAnnualFee(Number(e.target.value))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
 
@@ -346,7 +346,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 type="text"
                 value={feeWaiver}
                 onChange={(e) => setFeeWaiver(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
               />
             </div>
           </div>
@@ -361,7 +361,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
               required
               value={referralUrl}
               onChange={(e) => setReferralUrl(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-#1A56DB"
             />
           </div>
 
@@ -372,7 +372,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
               <button
                 type="button"
                 onClick={() => handleArrayAdd(setBenefits)}
-                className="caption-4 font-semibold text-teal-800 hover:underline flex items-center gap-1"
+                className="caption-4 font-semibold text-#1A56DB hover:underline flex items-center gap-1"
               >
                 <Plus size={14} /> Add Perk
               </button>
@@ -400,11 +400,11 @@ export default function EditCardPage({ params }: EditCardPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="caption-3 font-semibold text-teal-800">Pros</label>
+                <label className="caption-3 font-semibold text-#1A56DB">Pros</label>
                 <button
                   type="button"
                   onClick={() => handleArrayAdd(setPros)}
-                  className="caption-4 font-semibold text-teal-800 hover:underline flex items-center gap-1"
+                  className="caption-4 font-semibold text-#1A56DB hover:underline flex items-center gap-1"
                 >
                   <Plus size={14} /> Add
                 </button>
@@ -558,7 +558,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 text-teal-800 rounded focus:ring-teal-700"
+                className="w-4 h-4 text-#1A56DB rounded focus:ring-#1A56DB"
               />
               <span>Card Active & Visible on Website</span>
             </label>
@@ -568,7 +568,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
                 type="checkbox"
                 checked={isFeatured}
                 onChange={(e) => setIsFeatured(e.target.checked)}
-                className="w-4 h-4 text-teal-800 rounded focus:ring-teal-700"
+                className="w-4 h-4 text-#1A56DB rounded focus:ring-#1A56DB"
               />
               <span>Feature on Top of Homepage</span>
             </label>
@@ -585,7 +585,7 @@ export default function EditCardPage({ params }: EditCardPageProps) {
             <button
               type="submit"
               disabled={submitting || uploadingImage}
-              className="button-md rounded-xl bg-teal-800 text-white font-semibold hover:bg-teal-900 active:scale-[0.98] transition-all disabled:opacity-50"
+              className="button-md rounded-xl bg-#1A56DB text-white font-semibold hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50"
             >
               {submitting ? 'Saving Changes...' : 'Update Card'}
             </button>

@@ -40,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={manrope.variable}>
-      <body className="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+      <body className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#0B0F17] antialiased selection:bg-black selection:text-white">
         <CompareProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

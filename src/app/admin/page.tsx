@@ -131,7 +131,7 @@ export default function AdminDashboardPage() {
       {/* Admin Top Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-neutral-200 shadow-sm">
         <div>
-          <span className="caption-3 font-semibold uppercase tracking-wider text-teal-800 bg-teal-50 px-2 py-0.5 rounded">
+          <span className="caption-3 font-semibold uppercase tracking-wider text-[#1A56DB] bg-blue-50 px-2 py-0.5 rounded">
             Authenticated Admin
           </span>
           <h1 className="title-1 font-bold text-neutral-900 mt-1">
@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/cards/new"
-            className="button-sm rounded-xl bg-teal-800 text-white font-semibold hover:bg-teal-900 flex items-center gap-1.5 shadow-sm"
+            className="button-sm rounded-xl bg-[#1A56DB] text-white font-semibold hover:bg-blue-700 flex items-center gap-1.5 shadow-sm"
           >
             <Plus size={16} weight="bold" />
             <span>Add New Card</span>
@@ -161,7 +161,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {statusMessage && (
-        <div className="p-3 rounded-xl bg-teal-50 border border-teal-200 text-xs text-teal-900 font-semibold">
+        <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-xs text-[#1A56DB] font-semibold">
           {statusMessage}
         </div>
       )}
@@ -206,8 +206,8 @@ export default function AdminDashboardPage() {
 
           <div className="p-4 rounded-xl border border-neutral-200 bg-white shadow-sm">
             <span className="caption-5 text-neutral-500 block">Total Apply Clicks</span>
-            <span className="title-1 font-bold text-teal-800 flex items-center gap-1">
-              <CursorClick size={20} className="text-teal-700" />
+            <span className="title-1 font-bold text-[#1A56DB] flex items-center gap-1">
+              <CursorClick size={20} className="text-[#1A56DB]" />
               {analytics.overview.totalClicks}
             </span>
             <span className="caption-5 text-neutral-400 block mt-0.5">Referral redirects</span>
@@ -215,7 +215,7 @@ export default function AdminDashboardPage() {
 
           <div className="p-4 rounded-xl border border-neutral-200 bg-white shadow-sm">
             <span className="caption-5 text-neutral-500 block">Overall CTR</span>
-            <span className="title-1 font-bold text-teal-700">
+            <span className="title-1 font-bold text-[#1A56DB]">
               {analytics.overview.overallCtr}%
             </span>
             <span className="caption-5 text-neutral-400 block mt-0.5">Click-through rate</span>
@@ -289,7 +289,7 @@ export default function AdminDashboardPage() {
                         <Link
                           href={`/cards/${card.slug}`}
                           target="_blank"
-                          className="font-semibold text-neutral-900 hover:text-teal-800 transition-colors line-clamp-1"
+                          className="font-semibold text-neutral-900 hover:text-[#1A56DB] transition-colors line-clamp-1"
                         >
                           {card.title}
                         </Link>
@@ -303,7 +303,7 @@ export default function AdminDashboardPage() {
                   {/* Bank & Category */}
                   <td className="p-3">
                     <span className="font-medium text-neutral-700 block">{card.bankName}</span>
-                    <span className="caption-5 text-teal-800 bg-teal-50 px-1.5 py-0.5 rounded inline-block mt-0.5">
+                    <span className="caption-5 text-[#1A56DB] bg-blue-50 px-1.5 py-0.5 rounded inline-block mt-0.5">
                       {card.category}
                     </span>
                   </td>
@@ -319,7 +319,7 @@ export default function AdminDashboardPage() {
                   </td>
 
                   {/* Clicks */}
-                  <td className="p-3 text-center font-bold text-teal-800">
+                  <td className="p-3 text-center font-bold text-[#1A56DB]">
                     {card.clicksCount}
                   </td>
 
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
                     <div className="flex items-center justify-end gap-1.5">
                       <Link
                         href={`/admin/cards/${card._id}`}
-                        className="p-1.5 rounded-lg border border-neutral-200 text-neutral-600 hover:text-teal-800 hover:bg-neutral-100 transition-colors"
+                        className="p-1.5 rounded-lg border border-neutral-200 text-neutral-600 hover:text-[#1A56DB] hover:bg-neutral-100 transition-colors"
                         title="Edit Card"
                       >
                         <PencilSimple size={16} />
