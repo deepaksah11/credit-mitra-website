@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { getCards } from '@/lib/api';
 import CreditCardsCarousel from '@/components/CreditCardsCarousel';
@@ -18,15 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-interface CreditCardsPageProps {
-  searchParams?: {
-    autoplay?: string;
-    interval?: string;
-    category?: string;
-  };
-}
-
-export default async function CreditCardsPage({ searchParams }: CreditCardsPageProps) {
+export default async function CreditCardsPage() {
   // Fetch active cards from backend API sorted by admin priority
   const cardsResponse = await getCards({
     sort: 'hero',
@@ -34,10 +26,6 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
   });
 
   const cards = cardsResponse.data || [];
-
-  // Parse optional autoplay interval
-  const autoplayInterval = searchParams?.interval ? parseInt(searchParams.interval, 10) : 5000;
-  const initialAutoplay = searchParams?.autoplay !== 'false';
 
   return (
     <div className="relative min-h-screen bg-[#FAF7F2] pb-12 overflow-x-hidden">
@@ -86,11 +74,9 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
         {/* ======================================================== */}
         {/* MAIN CREDIT CARD CAROUSEL + CATEGORIES + COMPARE + FOOTER */}
         {/* ======================================================== */}
-        <CreditCardsCarousel
-          cards={cards}
-          autoplayInterval={autoplayInterval}
-          initialAutoplay={initialAutoplay}
-        />
+        <Suspense fallback={<div className="min-h-[420px] flex items-center justify-center text-slate-400 text-sm font-medium">Loading cards...</div>}>
+          <CreditCardsCarousel cards={cards} />
+        </Suspense>
       </div>
     </div>
   );

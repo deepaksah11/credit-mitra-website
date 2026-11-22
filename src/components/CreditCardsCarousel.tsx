@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { Card } from '@/types/card';
 import { formatCurrency } from '@/lib/utils';
 import { API_BASE_URL } from '@/lib/api';
@@ -36,12 +37,11 @@ import {
   ArrowRight,
   MagnifyingGlass,
   ArrowSquareOut,
+  ShareNetwork,
 } from '@phosphor-icons/react';
 
 interface CreditCardsCarouselProps {
   cards: Card[];
-  autoplayInterval?: number;
-  initialAutoplay?: boolean;
 }
 
 // Bank Logo Helper Component matching the reference badge style
@@ -104,11 +104,10 @@ function PrettyBenefitItem({ text }: { text: string }) {
   );
 }
 
-export default function CreditCardsCarousel({
-  cards = [],
-  autoplayInterval = 5000,
-  initialAutoplay = true,
-}: CreditCardsCarouselProps) {
+export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselProps) {
+  const searchParams = useSearchParams();
+  const cardParam = searchParams.get('card') || searchParams.get('slug');
+
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -116,7 +115,7 @@ export default function CreditCardsCarousel({
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragCurrentX, setDragCurrentX] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [shareToast, setShareToast] = useState<string | null>(null);
 
   // Category navigation tabs
   const categoryTabs = [
@@ -133,10 +132,8 @@ export default function CreditCardsCarousel({
     if (selectedCategory === 'All') return cards;
     const cat = selectedCategory.toLowerCase();
     
-    // First, direct match on category
     let result = cards.filter((c) => (c.category || '').toLowerCase() === cat);
     
-    // For Fuel or special categories, check benefits or title if not tagged directly
     if (result.length === 0 && cat === 'fuel') {
       result = cards.filter((c) => {
         const text = `${c.title} ${c.benefits?.join(' ') || ''}`.toLowerCase();
@@ -146,6 +143,20 @@ export default function CreditCardsCarousel({
 
     return result.length > 0 ? result : cards;
   }, [cards, selectedCategory]);
+
+  // Deep-linking: When a user visits with ?card=slug, show that specific card on TOP
+  useEffect(() => {
+    if (cardParam && cards.length > 0) {
+      const target = cardParam.toLowerCase().trim();
+      const foundIndex = cards.findIndex(
+        (c) => c.slug.toLowerCase() === target || c._id === target
+      );
+      if (foundIndex !== -1) {
+        setSelectedCategory('All');
+        setCurrentIndex(foundIndex);
+      }
+    }
+  }, [cardParam, cards]);
 
   // Filter cards for the bottom list view (including search query)
   const listCards = useMemo(() => {
@@ -162,26 +173,12 @@ export default function CreditCardsCarousel({
   }, [filteredCards, searchQuery]);
 
   const totalCards = filteredCards.length;
-  const isPlaying = initialAutoplay && totalCards > 1;
 
   // Handle category change: reset slide index
   const handleSelectCategory = (cat: string) => {
     setSelectedCategory(cat);
     setCurrentIndex(0);
   };
-
-  // Check prefers-reduced-motion
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      setReducedMotion(mediaQuery.matches);
-      const handleChange = (e: MediaQueryListEvent) => {
-        setReducedMotion(e.matches);
-      };
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    }
-  }, []);
 
   const goToNext = useCallback(() => {
     if (totalCards <= 1) return;
@@ -198,19 +195,7 @@ export default function CreditCardsCarousel({
     setCurrentIndex(index);
   };
 
-  // Autoplay ticker (5 seconds default, pauses on interaction)
-  useEffect(() => {
-    if (totalCards <= 1 || !isPlaying || isHovered || isDragging || reducedMotion) {
-      return;
-    }
-    const timer = setInterval(() => {
-      goToNext();
-    }, autoplayInterval);
-
-    return () => clearInterval(timer);
-  }, [totalCards, isPlaying, isHovered, isDragging, reducedMotion, autoplayInterval, goToNext]);
-
-  // Touch Swipe Handlers for mobile
+  // Touch Swipe Handlers for mobile (NO automatic timer; slides only on manual swipe)
   const handleTouchStart = (e: React.TouchEvent) => {
     if (totalCards <= 1) return;
     setIsDragging(true);
@@ -267,6 +252,32 @@ export default function CreditCardsCarousel({
     setIsHovered(false);
   };
 
+  // Sharing helper: Copies direct card deep-link
+  const handleShareCard = async (cardToShare: Card) => {
+    const shareUrl = typeof window !== 'undefined'
+      ? `${window.location.origin}/credit-cards?card=${cardToShare.slug}`
+      : `https://wegeti.com/credit-cards?card=${cardToShare.slug}`;
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${cardToShare.title} — Credit-Mitra`,
+          text: `Check out ${cardToShare.title} on Credit-Mitra!`,
+          url: shareUrl,
+        });
+        return;
+      } catch {
+        // Fallback to clipboard
+      }
+    }
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareToast(`Link copied for ${cardToShare.title}!`);
+      setTimeout(() => setShareToast(null), 2500);
+    }
+  };
+
   if (totalCards === 0) {
     return (
       <div className="w-full max-w-md mx-auto p-8 text-center rounded-3xl bg-white shadow-xl shadow-black/[0.03]">
@@ -293,6 +304,13 @@ export default function CreditCardsCarousel({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Toast Notification */}
+      {shareToast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#0B0F17] text-white text-xs font-bold px-4 py-2 rounded-full shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150">
+          {shareToast}
+        </div>
+      )}
+
       {/* ======================================================== */}
       {/* 1. ANIMATED CAROUSEL VIEWPORT (3-Card Peeking Layout) */}
       {/* ======================================================== */}
@@ -333,22 +351,34 @@ export default function CreditCardsCarousel({
           {/* ======================================================== */}
           <div className="relative z-10 w-full max-w-[700px] mx-auto rounded-[28px] sm:rounded-[36px] bg-white p-4 sm:p-7 md:p-8 shadow-2xl shadow-indigo-950/[0.08] hover:shadow-indigo-950/[0.12] transition-all duration-300 ease-out border border-black/[0.02]">
             
-            {/* Top Bar: Bank Logo (Left) & Badges (Right) */}
+            {/* Top Bar: Bank Logo (Left) & Badges + Share (Right) */}
             <div className="flex items-center justify-between gap-2 mb-3.5 sm:mb-5">
               {/* Bank Logo in Soft Container */}
               <div className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] inline-flex items-center shadow-2xs border border-black/[0.02]">
                 <BankLogoBadge bankName={currentCard.bankName} />
               </div>
 
-              {/* Badges: Category + Most Popular Pill */}
+              {/* Badges + Share Icon */}
               <div className="flex items-center gap-2">
                 <span className="hidden xs:inline-flex items-center px-2.5 py-1 rounded-full bg-[#EFF6FF] text-[#1A56DB] text-[11px] font-bold border border-blue-100">
                   {currentCard.category}
                 </span>
+
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF3C7] text-[#92400E] text-[11px] sm:text-xs font-bold shadow-2xs">
                   <Star size={13} weight="fill" className="text-amber-500" />
                   <span>{currentCard.heroTag || (currentCard.isFeatured ? 'Most Popular' : 'Top Choice')}</span>
                 </div>
+
+                {/* Share Button on Top */}
+                <button
+                  type="button"
+                  onClick={() => handleShareCard(currentCard)}
+                  className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-slate-500 hover:text-[#0B0F17] transition-colors"
+                  title="Share this card"
+                  aria-label="Share this card"
+                >
+                  <ShareNetwork size={16} weight="bold" />
+                </button>
               </div>
             </div>
 
@@ -620,14 +650,26 @@ export default function CreditCardsCarousel({
                   className="rounded-[24px] bg-white p-5 shadow-lg shadow-black/[0.03] hover:shadow-2xl hover:shadow-indigo-950/[0.08] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group border border-black/[0.02]"
                 >
                   <div className="space-y-3.5">
-                    {/* Top Row: Bank Badge + Category Pill */}
+                    {/* Top Row: Bank Badge + Category Pill + Share */}
                     <div className="flex items-center justify-between gap-2">
                       <div className="px-2.5 py-1 rounded-xl bg-[#FAF7F2] inline-flex items-center shadow-2xs border border-black/[0.02]">
                         <BankLogoBadge bankName={card.bankName} />
                       </div>
-                      <span className="text-[11px] font-bold text-[#1A56DB] bg-[#EFF6FF] px-2.5 py-0.5 rounded-full border border-blue-100">
-                        {card.category}
-                      </span>
+                      
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-[#1A56DB] bg-[#EFF6FF] px-2.5 py-0.5 rounded-full border border-blue-100">
+                          {card.category}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleShareCard(card)}
+                          className="p-1 rounded-full text-slate-400 hover:text-[#0B0F17] hover:bg-slate-100 transition-colors"
+                          title="Share card"
+                          aria-label="Share card"
+                        >
+                          <ShareNetwork size={14} weight="bold" />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Card Visual & Title */}
