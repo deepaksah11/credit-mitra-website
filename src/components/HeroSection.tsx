@@ -180,7 +180,7 @@ export default function HeroSection({ heroCards = [] }: HeroSectionProps) {
 
                 <div className="flex flex-wrap items-center gap-3 pt-2">
                   <a
-                    href={`${API_BASE_URL}/go/${activeCard.slug}`}
+                    href={activeCard.referralUrl || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold px-8 py-3.5 text-xs sm:text-sm tracking-wider uppercase shadow-xl transition-all inline-flex items-center gap-2"

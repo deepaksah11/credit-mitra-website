@@ -64,7 +64,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
   }
 
   const otherCards = (allCardsRes.data || []).filter((c) => c.slug !== params.slug);
-  const applyUrl = `${API_BASE_URL}/go/${card.slug}`;
+  const applyUrl = card.referralUrl || '#';
   const whatsappUrl = getWhatsAppShareUrl(card.title, card.slug);
 
   return (
@@ -313,7 +313,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {otherCards.slice(0, 6).map((otherCard) => {
-                const otherApplyUrl = `${API_BASE_URL}/go/${otherCard.slug}`;
+                const otherApplyUrl = otherCard.referralUrl || '#';
                 const otherDetailUrl = `/cards/${otherCard.slug}`;
 
                 return (

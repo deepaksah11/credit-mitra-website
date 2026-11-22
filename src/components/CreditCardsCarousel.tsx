@@ -481,9 +481,9 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
                 <span>View Details</span>
               </Link>
 
-              {/* Apply Now Button (Obsidian Black Pill Button Matching Reference Image) */}
+              {/* Apply Now Button (Direct Bank Referral, No Backend Dependency) */}
               <a
-                href={`${API_BASE_URL}/go/${currentCard.slug}`}
+                href={currentCard.referralUrl || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold text-xs sm:text-sm tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-black/20 hover:shadow-2xl transition-all uppercase whitespace-nowrap group/apply"
@@ -641,7 +641,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {listCards.map((card) => {
-              const applyUrl = `${API_BASE_URL}/go/${card.slug}`;
+              const applyUrl = card.referralUrl || '#';
               const detailUrl = `/cards/${card.slug}`;
 
               return (

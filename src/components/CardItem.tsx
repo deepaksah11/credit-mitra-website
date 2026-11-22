@@ -32,7 +32,7 @@ export default function CardItem({ card }: CardItemProps) {
     }
   };
 
-  const applyUrl = `${API_BASE_URL}/go/${card.slug}`;
+  const applyUrl = card.referralUrl || '#';
   const whatsappUrl = getWhatsAppShareUrl(card.title, card.slug);
 
   return (

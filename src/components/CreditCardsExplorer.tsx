@@ -129,7 +129,7 @@ export default function CreditCardsExplorer({ cards = [] }: CreditCardsExplorerP
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredCards.map((card) => {
-            const applyUrl = `${API_BASE_URL}/go/${card.slug}`;
+            const applyUrl = card.referralUrl || '#';
             const detailUrl = `/cards/${card.slug}`;
 
             return (

@@ -143,7 +143,7 @@ export default function ComparePage() {
                           />
                         </div>
                         <a
-                          href={`${API_BASE_URL}/go/${card.slug}`}
+                          href={card.referralUrl || '#'}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="mt-3.5 w-full rounded-full bg-[#0B0F17] hover:bg-[#1E293B] text-white text-center py-2.5 text-xs font-bold shadow-md shadow-black/10 flex items-center justify-center gap-1.5 transition-all"

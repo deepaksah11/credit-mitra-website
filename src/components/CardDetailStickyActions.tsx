@@ -121,9 +121,9 @@ export default function CardDetailStickyActions({
             <span>Compare</span>
           </button>
 
-          {/* Apply Now Button (Black Pill Button Matching Reference) */}
+          {/* Apply Now Button (Direct Bank Referral, No Backend Dependency) */}
           <a
-            href={`${API_BASE_URL}/go/${currentCard.slug}`}
+            href={currentCard.referralUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 py-3.5 px-3 sm:px-6 rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold text-xs sm:text-sm tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-black/25 transition-all uppercase whitespace-nowrap"
