@@ -2,7 +2,6 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { getCards } from '@/lib/api';
 import CreditCardsCarousel from '@/components/CreditCardsCarousel';
-import CreditCardsExplorer from '@/components/CreditCardsExplorer';
 
 export const metadata: Metadata = {
   title: 'Credit Cards — Find the Right Credit Card for You | Credit-Mitra',
@@ -41,21 +40,21 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
   const initialAutoplay = searchParams?.autoplay !== 'false';
 
   return (
-    <div className="relative min-h-screen bg-[#FAF7F2] pb-20 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#FAF7F2] pb-12 overflow-x-hidden">
       
       {/* ======================================================== */}
-      {/* SOFT FLUID AMBIENT CURVED WAVES (Fintech Brand Aesthetic) */}
+      {/* SOFT FLUID AMBIENT CURVED GLOWS (Brand Theme #FAF7F2) */}
       {/* ======================================================== */}
       <div
-        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] pointer-events-none -z-10 opacity-70"
+        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[450px] pointer-events-none -z-10 opacity-60"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 30%, rgba(224, 231, 255, 0.6) 0%, rgba(254, 215, 226, 0.35) 45%, rgba(254, 240, 138, 0.2) 70%, transparent 100%)',
+            'radial-gradient(ellipse at 50% 30%, rgba(224, 231, 255, 0.7) 0%, rgba(254, 215, 226, 0.3) 45%, rgba(254, 240, 138, 0.15) 70%, transparent 100%)',
         }}
       />
 
       <div
-        className="absolute top-1/2 -right-40 w-[600px] h-[600px] pointer-events-none -z-10 opacity-50"
+        className="absolute top-1/2 -right-40 w-[500px] h-[500px] pointer-events-none -z-10 opacity-40"
         style={{
           background:
             'radial-gradient(circle at 60% 50%, rgba(254, 215, 226, 0.45) 0%, rgba(253, 230, 138, 0.2) 50%, transparent 70%)',
@@ -65,15 +64,15 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
       {/* ======================================================== */}
       {/* MAIN CONTAINER */}
       {/* ======================================================== */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 sm:pt-6 space-y-4 sm:space-y-9">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 sm:pt-4 space-y-3 sm:space-y-6">
         
         {/* ======================================================== */}
-        {/* HEADING SECTION (Hidden on mobile as requested, visible on tablet/desktop) */}
+        {/* HERO HEADING (Section 3.B - Compact, Bold, Visually Polished) */}
         {/* ======================================================== */}
-        <section aria-label="Hero Title" className="hidden sm:block text-center max-w-2xl mx-auto space-y-2.5 pt-2">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B0F17] tracking-tight leading-tight">
+        <section aria-label="Hero Title" className="text-center max-w-2xl mx-auto space-y-1 sm:space-y-2 pt-1">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0B0F17] tracking-tight leading-tight">
             Find the Right{' '}
-            <span className="bg-gradient-to-r from-[#1A56DB] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">
+            <span className="text-[#1A56DB]">
               Credit Card
             </span>{' '}
             for You
@@ -85,18 +84,13 @@ export default async function CreditCardsPage({ searchParams }: CreditCardsPageP
         </section>
 
         {/* ======================================================== */}
-        {/* 3-CARD PEEKING ANIMATED CAROUSEL (Dominant Center Stage) */}
+        {/* MAIN CREDIT CARD CAROUSEL + CATEGORIES + COMPARE + FOOTER */}
         {/* ======================================================== */}
         <CreditCardsCarousel
           cards={cards}
           autoplayInterval={autoplayInterval}
           initialAutoplay={initialAutoplay}
         />
-
-        {/* ======================================================== */}
-        {/* CATEGORY PILLS BAR, COMPARE BANNER & TRUST FOOTER */}
-        {/* ======================================================== */}
-        <CreditCardsExplorer cards={cards} />
       </div>
     </div>
   );
