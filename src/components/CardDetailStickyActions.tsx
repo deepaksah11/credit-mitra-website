@@ -105,7 +105,7 @@ export default function CardDetailStickyActions({
             type="button"
             onClick={handleShare}
             title="Share card"
-            className="p-3 rounded-2xl bg-[#FAF7F2] hover:bg-[#EAE4D9] text-slate-700 active:scale-95 transition-all flex items-center justify-center flex-shrink-0 border border-slate-200/60"
+            className="p-3.5 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D9] text-slate-700 active:scale-95 transition-all flex items-center justify-center flex-shrink-0 border border-slate-200/80 shadow-2xs"
             aria-label="Share card link"
           >
             <ShareNetwork size={18} weight="bold" />
@@ -115,20 +115,20 @@ export default function CardDetailStickyActions({
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            className="flex-1 py-3 px-3 sm:px-5 rounded-2xl bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 transition-all border border-slate-200/60 shadow-2xs whitespace-nowrap"
+            className="flex-1 py-3.5 px-3 sm:px-5 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 transition-all border border-slate-200/80 shadow-2xs uppercase whitespace-nowrap"
           >
-            <Scales size={18} weight="bold" className="text-[#1A56DB] flex-shrink-0" />
+            <Scales size={18} weight="bold" className="text-[#0B0F17] flex-shrink-0" />
             <span>Compare</span>
           </button>
 
-          {/* Apply Now Button (Primary Brand Color) */}
+          {/* Apply Now Button (Black Pill Button Matching Reference) */}
           <a
             href={`${API_BASE_URL}/go/${currentCard.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 py-3 px-3 sm:px-5 rounded-2xl bg-gradient-to-r from-[#1A56DB] via-[#2563EB] to-[#1D4ED8] hover:from-[#1E40AF] hover:to-[#1E3A8A] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-blue-600/30 active:scale-95 transition-all whitespace-nowrap"
+            className="flex-1 py-3.5 px-3 sm:px-6 rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold text-xs sm:text-sm tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-black/25 transition-all uppercase whitespace-nowrap"
           >
-            <Lightning size={18} weight="fill" className="text-amber-300 flex-shrink-0" />
+            <Lightning size={16} weight="fill" className="text-amber-300 flex-shrink-0" />
             <span>Apply Now</span>
           </a>
         </div>
@@ -209,11 +209,11 @@ export default function CardDetailStickyActions({
                     </div>
                   </div>
 
-                  {/* 1-Tap Compare Button */}
+                  {/* 1-Tap Compare Button (Black Pill Button) */}
                   <button
                     type="button"
                     onClick={() => handleCompareWith(card)}
-                    className="whitespace-nowrap px-3.5 py-2 rounded-xl bg-[#1A56DB] hover:bg-[#1E40AF] text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-blue-600/20 active:scale-95 transition-all flex-shrink-0"
+                    className="whitespace-nowrap px-4 py-2 rounded-full bg-[#0B0F17] hover:bg-black text-white text-xs font-bold tracking-wider flex items-center gap-1.5 shadow-md shadow-black/20 uppercase active:scale-95 transition-all flex-shrink-0"
                   >
                     <span>Compare</span>
                     <ArrowRight size={13} weight="bold" />

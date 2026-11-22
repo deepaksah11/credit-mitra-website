@@ -171,7 +171,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
               href={applyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:flex-1 rounded-full bg-gradient-to-r from-[#1A56DB] via-[#2563EB] to-[#1D4ED8] hover:from-[#1E40AF] hover:to-[#1E3A8A] active:scale-[0.98] text-white py-3.5 sm:py-4 px-8 text-sm sm:text-base font-bold shadow-xl shadow-blue-600/30 transition-all flex items-center justify-center gap-2 group"
+              className="w-full sm:flex-1 rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white py-4 px-8 text-xs sm:text-sm font-bold tracking-widest shadow-xl hover:shadow-2xl transition-all uppercase flex items-center justify-center gap-2 group"
             >
               <span>Apply Now on {card.bankName} Portal</span>
               <ArrowSquareOut size={18} weight="bold" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -192,7 +192,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
         {/* Detailed Benefits Section */}
         <div className="rounded-3xl bg-white p-6 sm:p-8 shadow-xl shadow-black/[0.03] space-y-4">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-full bg-[#1A56DB] text-white flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 rounded-full bg-[#0B0F17] text-white flex items-center justify-center shadow-sm">
               <Gift size={18} weight="fill" />
             </div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B0F17]">
@@ -359,7 +359,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
                     <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
                       <Link
                         href={otherDetailUrl}
-                        className="py-2 px-2.5 rounded-xl bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] text-xs font-bold flex items-center justify-center gap-1 active:scale-95 transition-all text-center"
+                        className="py-2.5 px-3 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] text-xs font-bold tracking-wider flex items-center justify-center gap-1 active:scale-95 transition-all text-center uppercase border border-slate-200/60"
                       >
                         <Eye size={13} weight="bold" />
                         <span>Details</span>
@@ -369,7 +369,7 @@ export default async function CardDetailPage({ params }: CardDetailPageProps) {
                         href={otherApplyUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="py-2 px-2.5 rounded-xl bg-[#1A56DB] hover:bg-[#1E40AF] text-white text-xs font-bold flex items-center justify-center gap-1 active:scale-95 transition-all text-center shadow-xs"
+                        className="py-2.5 px-3 rounded-full bg-[#0B0F17] hover:bg-black text-white text-xs font-bold tracking-wider flex items-center justify-center gap-1 active:scale-95 transition-all text-center uppercase shadow-md shadow-black/15"
                       >
                         <Lightning size={13} weight="fill" className="text-amber-300" />
                         <span>Apply</span>

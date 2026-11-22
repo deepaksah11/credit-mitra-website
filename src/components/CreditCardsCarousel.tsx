@@ -470,23 +470,23 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
               </div>
             </div>
 
-            {/* Bottom Actions Row: VIEW DETAILS & APPLY NOW (Single Row, High Contrast) */}
+            {/* Bottom Actions Row: VIEW DETAILS & APPLY NOW (Single Row, High Contrast Matching Reference) */}
             <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-100 grid grid-cols-2 gap-2.5 sm:gap-4">
-              {/* View Details Button (Existing Secondary Button Style) */}
+              {/* View Details Button (Pill Button) */}
               <Link
                 href={`/cards/${currentCard.slug}`}
-                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-xl sm:rounded-2xl bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 transition-all active:scale-95 shadow-xs whitespace-nowrap"
+                className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 transition-all active:scale-95 shadow-xs uppercase whitespace-nowrap border border-slate-200/60"
               >
                 <Eye size={16} weight="bold" className="text-slate-600 flex-shrink-0" />
                 <span>View Details</span>
               </Link>
 
-              {/* Apply Now Button (Existing Primary Brand Color Style) */}
+              {/* Apply Now Button (Obsidian Black Pill Button Matching Reference Image) */}
               <a
                 href={`${API_BASE_URL}/go/${currentCard.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1A56DB] via-[#2563EB] to-[#1D4ED8] hover:from-[#1E40AF] hover:to-[#1E3A8A] text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 shadow-lg shadow-blue-600/30 active:scale-95 transition-all group/apply whitespace-nowrap"
+                className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-[#0B0F17] hover:bg-black active:scale-95 text-white font-bold text-xs sm:text-sm tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-black/20 hover:shadow-2xl transition-all uppercase whitespace-nowrap group/apply"
               >
                 <Lightning size={16} weight="fill" className="text-amber-300 group-hover/apply:scale-110 transition-transform flex-shrink-0" />
                 <span>Apply Now</span>
@@ -555,7 +555,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
                 aria-label={`Go to card ${i + 1}`}
                 className={`rounded-full transition-all duration-300 ${
                   i === safeIndex
-                    ? 'w-7 h-2 bg-[#1A56DB]'
+                    ? 'w-7 h-2 bg-[#0B0F17]'
                     : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
                 }`}
               />
@@ -564,7 +564,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
         )}
 
         {/* ======================================================== */}
-        {/* 3. CATEGORY NAVIGATION (Rounded Chips, Section 3.E) */}
+        {/* 3. CATEGORY NAVIGATION (Rounded Chips, Matching Site Style) */}
         {/* ======================================================== */}
         <div className="mt-4 sm:mt-6 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none justify-start sm:justify-center px-1">
           {categoryTabs.map((tab) => {
@@ -576,7 +576,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
                 onClick={() => handleSelectCategory(tab.value)}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 active:scale-95 ${
                   isActive
-                    ? 'bg-[#1A56DB] text-white shadow-md shadow-blue-600/20'
+                    ? 'bg-[#0B0F17] text-white shadow-xl shadow-black/25'
                     : 'bg-white text-slate-700 hover:bg-slate-100 shadow-sm'
                 }`}
               >
@@ -722,7 +722,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
                   <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
                     <Link
                       href={detailUrl}
-                      className="py-2.5 px-3 rounded-xl bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors active:scale-95"
+                      className="py-2.5 px-3 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D9] text-[#0B0F17] text-xs font-bold tracking-wider flex items-center justify-center gap-1.5 transition-colors active:scale-95 uppercase border border-slate-200/60"
                     >
                       <Eye size={14} weight="bold" className="text-slate-600" />
                       <span>Details</span>
@@ -732,7 +732,7 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
                       href={applyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="py-2.5 px-3 rounded-xl bg-[#1A56DB] hover:bg-[#1E40AF] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors active:scale-95 shadow-md shadow-blue-600/20"
+                      className="py-2.5 px-3 rounded-full bg-[#0B0F17] hover:bg-black text-white text-xs font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md shadow-black/15 uppercase"
                     >
                       <span>Apply</span>
                       <ArrowSquareOut size={14} weight="bold" />
