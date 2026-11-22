@@ -773,37 +773,16 @@ export default function CreditCardsCarousel({ cards = [] }: CreditCardsCarouselP
       </div>
 
       {/* ======================================================== */}
-      {/* 6. TRUST AND FOOTER (Section 3.G) */}
+      {/* 6. TRUST REASSURANCE (Minimal, Non-Bulky) */}
       {/* ======================================================== */}
-      <div className="text-center space-y-2.5 text-xs text-slate-500 pb-4">
-        {/* Verified Partner Badge */}
-        <div className="inline-flex items-center justify-center gap-1.5 font-bold text-slate-600">
+      <div className="text-center pt-1 pb-2">
+        <div className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 bg-white/70 px-4 py-1.5 rounded-full border border-slate-200/60 shadow-2xs">
           <ShieldCheck size={15} weight="fill" className="text-emerald-600" />
           <span>Direct Bank Partner Links</span>
           <span className="text-slate-300">•</span>
           <span>100% Free Service</span>
           <span className="text-slate-300">•</span>
           <span>Transparent Terms</span>
-        </div>
-
-        {/* Transparent Referral Disclosure */}
-        <p className="text-[11px] text-slate-400 max-w-xl mx-auto leading-relaxed">
-          Referral Disclosure: When you apply through links on our site, we may receive compensation from bank partners at no additional cost to you. We strive to provide transparent and unbiased information to help you find the right card.
-        </p>
-
-        {/* Legal Links */}
-        <div className="flex items-center justify-center gap-3 font-semibold text-slate-500 pt-1">
-          <Link href="/privacy" className="hover:text-[#1A56DB] transition-colors">
-            Privacy Policy
-          </Link>
-          <span className="text-slate-300">|</span>
-          <Link href="/affiliate-disclosure" className="hover:text-[#1A56DB] transition-colors">
-            Terms &amp; Conditions
-          </Link>
-          <span className="text-slate-300">|</span>
-          <Link href="/contact" className="hover:text-[#1A56DB] transition-colors">
-            Support
-          </Link>
         </div>
       </div>
     </div>
